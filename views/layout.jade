@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+    title= title
+    != css('style')
+    != LRScript
+    != js('application', { async: true })
+
+  body
+    block content
