@@ -1,6 +1,6 @@
 this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionette, $, _) {
   _.extend(Marionette.Renderer, {
-    lookups: ['javascripts/backbone/'],
+    lookups: ['/javascripts/backbone/'],
     templates: {},
 
     render: function(templatePath, data) {

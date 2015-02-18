@@ -1,4 +1,4 @@
-this.VelhaMania.module('LoginApp.Show', function(Show, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('HomeApp.Show', function(Show, App, Backbone, Marionette, $, _) {
   Show.Controller = App.Controllers.Application.extend({
     initialize: function() {
       this.layout = this.getLayout();
@@ -19,7 +19,7 @@ this.VelhaMania.module('LoginApp.Show', function(Show, App, Backbone, Marionette
       var view = this.getFormView();
 
       this.listenTo(view, 'form:submited', function(data) {
-        console.log(data, '-- controller --');
+        user = App.request('new:user:entity', data.email);
       });
 
       this.layout.formRegion.show(view);

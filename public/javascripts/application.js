@@ -5,6 +5,10 @@
 //= require backbone.wreqr/lib/backbone.wreqr
 //= require marionette/lib/backbone.marionette
 //= require marionette-formview/dist/FormView
+//= require backbone.localStorage/backbone.localStorage
+//= require backbone.mutators/backbone.mutators
+//= require backbone.routefilter/dist/backbone.routefilter
+//= require js-md5/js/md5
 
 //= require_tree ./config
 

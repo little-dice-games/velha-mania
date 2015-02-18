@@ -24,6 +24,10 @@
   ],
   "dependencies": {
     "marionette": "~2.3.2",
-    "marionette-formview": "*"
+    "marionette-formview": "git@github.com:SauloSilva/marionette.formview.git#event-fix",
+    "backbone.localStorage": "1.1.16",
+    "backbone.routefilter": "git@github.com:boazsender/backbone.routefilter.git",
+    "backbone.mutators": "0.4.4",
+    "js-md5": "1.1.0"
   }
 }

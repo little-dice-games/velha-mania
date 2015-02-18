@@ -1,8 +1,0 @@
-<form class='form-login'>
-  <fieldset class='controls'>
-    <label>Nome:</label>
-    <input class='name' for='name' data-field='name'>
-  </fieldset>
-
-  <button class="button-submit" type="submit">login</button>
-</form>

@@ -36,8 +36,22 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
 
     startHistory: function() {
       if (Backbone.history) {
-        return Backbone.history.start();
+        return Backbone.history.start({ pushState: true });
       }
     }
+  });
+
+  var API = {
+    navigate: function(path, options) {
+      var path = App.urlFor(path);
+
+      setTimeout(function() {
+        App.navigate(path, options);
+      }, 1)
+    }
+  };
+
+  App.vent.on('visit', function(path, options) {
+    API.navigate(path, options);
   });
 });
