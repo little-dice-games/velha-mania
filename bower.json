@@ -23,6 +23,7 @@
     "tests"
   ],
   "dependencies": {
-    "marionette": "~2.3.2"
+    "marionette": "~2.3.2",
+    "marionette-formview": "*"
   }
 }

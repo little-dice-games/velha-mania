@@ -4,3 +4,26 @@
 //= require backbone.babysitter/lib/backbone.babysitter
 //= require backbone.wreqr/lib/backbone.wreqr
 //= require marionette/lib/backbone.marionette
+//= require marionette-formview/dist/FormView
+
+//= require_tree ./config
+
+//= require backbone/app
+
+//= require_tree ./backbone/lib/utilities
+//= require_tree ./backbone/lib/views
+//= require_tree ./backbone/lib/controllers
+//= require_tree ./backbone/lib/components
+
+//= require_tree ./backbone/entities
+
+//= require ./backbone/behaviors/behaviors
+//= require ./backbone/behaviors/form_behavior
+
+//= require_tree ./backbone/apps
+
+//= require_self
+
+$(document).ready(function(){
+  VelhaMania.start()
+})
