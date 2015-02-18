@@ -1,11 +1,12 @@
-var express = require('express');
+var express = require('express.io');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var home = require('./routes/index');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -22,7 +23,8 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', home);
+app.use('/users/', users);
 
 // assets
 app.use(require("connect-assets")({
@@ -62,6 +64,11 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
+});
+
+
+app.listen(app.get('port'), function() {
+    require('./routes/sockets')(app);
 });
 
 module.exports = app;

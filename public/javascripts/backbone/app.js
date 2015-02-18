@@ -15,6 +15,14 @@ this.VelhaMania = (function(Backbone, Marionette) {
 
   App.on('start', function() {
     this.startHistory();
+
+    io = io.connect()
+
+    io.emit('ready')
+
+    io.on('talk', function(data) {
+        console.warn(data.message)
+    })
   });
 
   return App;

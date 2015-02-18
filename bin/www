@@ -2,6 +2,7 @@
 var debug = require('debug')('velha-mania');
 var livereload = require('express-livereload');
 var app = require('../app');
+app.http().io();
 
 app.set('port', process.env.PORT || 3000);
 
