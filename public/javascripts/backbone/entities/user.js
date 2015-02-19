@@ -30,6 +30,16 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     model: Entities.User,
     localStorage: new Backbone.LocalStorage('velha-mania-user'),
 
+    initialize: function() {
+      io.emit('users');
+    },
+
+    addUsers: function(users) {
+      $.each(users, function(i, user){
+        this.add([{ email: user.email }])
+      }.bind(this))
+    },
+
     getCurrentUser: function() {
       var user = _.first(this.filter(function(user) {
         return user.get('itsMe')
@@ -45,6 +55,20 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
       }
 
       return user;
+    },
+
+    create: function(email) {
+      var data = {
+        email: email,
+        itsMe: true
+      }
+
+      if (_.isEmpty(this.getCurrentUser())) {
+        io.emit('user/new', { email: email });
+        Entities.Users.__super__.create.call(this, data);
+      }
+
+      return this.getCurrentUser();
     }
   });
 
@@ -62,20 +86,15 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     },
 
     newUser: function(email) {
-      var data = {
-        email: email,
-        itsMe: true
-      }
-
-      if (_.isEmpty(this.getCurrentUser())) {
-        this.getUsers().create(data);
-      }
-
-      return this.getCurrentUser();
+      return this.getUsers().create(email);
     },
 
     loggout: function() {
       return this.getCurrentUser().loggout();
+    },
+
+    addUsers: function(users) {
+      this.getUsers().addUsers(users)
     }
   };
 
@@ -93,5 +112,9 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
   App.reqres.setHandler('loggout:user:entity', function() {
     return API.loggout();
-  })
+  });
+
+  io.on('users', function(response) {
+    API.addUsers(response.data)
+  });
 });

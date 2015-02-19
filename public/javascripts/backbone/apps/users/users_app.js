@@ -4,13 +4,22 @@ this.VelhaMania.module('UsersApp', function(UsersApp, App, Backbone, Marionette,
   UsersApp.Router = Marionette.AppRouter.extend({
     appRoutes: {
       'users/': 'users'
+    },
+
+    after: {
+      'users/': function(route) {
+        var user = App.request('user:entity');
+
+        if (!user) {
+          App.vent.trigger('home:visit');
+        }
+      }
     }
   });
 
   API = {
     users: function() {
       new UsersApp.List.Controller();
-      console.log('user:visited')
       App.vent.trigger('visit', 'users')
     }
   };

@@ -68,7 +68,9 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(app.get('port'), function() {
-    require('./routes/sockets')(app);
+    var users = [];
+    require('./routes/root_socket')(app, users);
+    require('./routes/users_socket')(app, users);
 });
 
 module.exports = app;

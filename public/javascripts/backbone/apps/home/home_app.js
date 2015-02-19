@@ -10,18 +10,17 @@ this.VelhaMania.module('HomeApp', function(HomeApp, App, Backbone, Marionette, $
       '': function(route) {
         var user = App.request('user:entity');
 
-        if (user.hasLogged()) {
+        if (user && user.hasLogged()) {
           App.vent.trigger('users:visit');
-        } else {
-          App.vent.trigger('home:visit');
         }
       }
-    },
+    }
   });
 
   API = {
     home: function() {
       new HomeApp.Show.Controller();
+      App.vent.trigger('visit')
     }
   };
 
@@ -29,7 +28,7 @@ this.VelhaMania.module('HomeApp', function(HomeApp, App, Backbone, Marionette, $
     new HomeApp.Router({ controller: API });
   });
 
-  App.vent.trigger('home:visit', function() {
+  App.vent.on('home:visit', function() {
     API.home();
   });
 });

@@ -43,10 +43,10 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
 
   var API = {
     navigate: function(path, options) {
-      var path = App.urlFor(path);
+      var path = path ? path : '/';
 
       setTimeout(function() {
-        App.navigate(path, options);
+        App.navigate(App.urlFor(path), options);
       }, 1)
     }
   };
