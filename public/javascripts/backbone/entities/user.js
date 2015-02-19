@@ -36,7 +36,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
     addUsers: function(users) {
       $.each(users, function(i, user){
-        this.add([{ email: user.email }])
+        var isEmpty = _.isEmpty(this.findWhere({ email: user.email }));
+        if (isEmpty) this.add([{ email: user.email }])
       }.bind(this))
     },
 
@@ -50,6 +51,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
         if (records.length == 1) {
           this.add(records);
+          io.emit('user/new', { email: _.first(records).email });
           user = this.getCurrentUser();
         }
       }
@@ -115,6 +117,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
   });
 
   io.on('users', function(response) {
+    console.log('socket:users', response)
     API.addUsers(response.data)
   });
 });
