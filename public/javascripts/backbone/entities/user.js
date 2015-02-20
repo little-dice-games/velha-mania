@@ -18,6 +18,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         logout: function() {
+            io.emit('users/delete', { email: this.get('email') });
             this.destroy();
         },
 

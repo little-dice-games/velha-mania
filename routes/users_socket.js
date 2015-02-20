@@ -18,6 +18,16 @@ UsersSocket = function(app, users) {
         req.io.broadcast('users', { data: users });
     });
 
+    app.io.route('users/delete', function(req){
+        users.forEach(function(user){
+            if (user.email == req.data.email) {
+                var index = users.indexOf(user);
+                if (index > -1) { users.splice(index, 1); }
+                req.io.broadcast('users/delete', { data: user });
+            }
+        });
+    })
+
     app.io.route('users', function(req) {
         req.io.emit('users', {
             data: users
