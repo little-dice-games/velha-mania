@@ -28,9 +28,9 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         tagName: 'ul',
 
         addChild: function(child, ChildView, index){
-          if (!child.itsMe()) {
-            List.UsersView.__super__.addChild.call(this, child, ChildView, index);
-          }
+            if (!child.itsMe()) {
+                List.UsersView.__super__.addChild.call(this, child, ChildView, index);
+            }
         }
     });
 });

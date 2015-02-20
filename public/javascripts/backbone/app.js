@@ -1,21 +1,21 @@
 this.VelhaMania = (function(Backbone, Marionette) {
-  var App = new Marionette.Application;
-  App.addRegions({
-    mainRegion: '.main-region'
-  });
+    var App = new Marionette.Application;
+    App.addRegions({
+        mainRegion: '.main-region'
+    });
 
-  App.addInitializer(function() {
-    App.module('HomeApp').start();
-    App.module('UsersApp').start();
-  });
+    App.addInitializer(function() {
+        App.module('HomeApp').start();
+        App.module('UsersApp').start();
+    });
 
-  App.reqres.setHandler('concern', function(concern) {
-    App.Concerns[concern];
-  });
+    App.reqres.setHandler('concern', function(concern) {
+        App.Concerns[concern];
+    });
 
-  App.on('start', function() {
-    this.startHistory();
-  });
+    App.on('start', function() {
+        this.startHistory();
+    });
 
-  return App;
+    return App;
 })(Backbone, Marionette);
