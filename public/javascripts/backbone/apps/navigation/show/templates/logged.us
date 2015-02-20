@@ -1,0 +1,4 @@
+Olá
+<img src=<%= avatar%>>
+<h3><%= username %></h3>
+<a class='logout'>sair</a>

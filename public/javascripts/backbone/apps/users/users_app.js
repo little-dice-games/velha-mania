@@ -20,7 +20,8 @@ this.VelhaMania.module('UsersApp', function(UsersApp, App, Backbone, Marionette,
     API = {
         users: function() {
             new UsersApp.List.Controller();
-            App.vent.trigger('visit', 'users')
+            App.vent.trigger('visit', 'users');
+            App.vent.trigger('user:logged');
         }
     };
 

@@ -1,7 +1,8 @@
 this.VelhaMania = (function(Backbone, Marionette) {
     var App = new Marionette.Application;
     App.addRegions({
-        mainRegion: '.main-region'
+        mainRegion: '.main-region',
+        navRegion: '.nav-region'
     });
 
     App.addInitializer(function() {

@@ -17,7 +17,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             }
         },
 
-        loggout: function() {
+        logout: function() {
             this.destroy();
         },
 
@@ -99,8 +99,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             return this.getUsers().create(email);
         },
 
-        loggout: function() {
-            return this.getCurrentUser().loggout();
+        logout: function() {
+            return this.getCurrentUser().logout();
         },
 
         addUsers: function(users) {
@@ -124,8 +124,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         return API.newUser(email);
     });
 
-    App.reqres.setHandler('loggout:user:entity', function() {
-        return API.loggout();
+    App.reqres.setHandler('logout:user:entity', function() {
+        return API.logout();
     });
 
     App.reqres.setHandler('opponents:entity', function() {

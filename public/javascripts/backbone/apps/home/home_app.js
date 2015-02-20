@@ -20,7 +20,8 @@ this.VelhaMania.module('HomeApp', function(HomeApp, App, Backbone, Marionette, $
     API = {
         home: function() {
             new HomeApp.Show.Controller();
-            App.vent.trigger('visit')
+            App.vent.trigger('visit');
+            App.vent.trigger('user:unlogged');
         }
     };
 
