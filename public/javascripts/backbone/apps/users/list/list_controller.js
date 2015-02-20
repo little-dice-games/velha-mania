@@ -17,7 +17,13 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
       },
 
       usersViewRegion: function() {
-          this.layout.listRegion.show(this.getUsersView());
+          var usersView = this.getUsersView();
+
+          this.listenTo(usersView, 'childview:user:clicked', function(child, b, c) {
+            console.log('clicked ', child, b, c)
+          });
+
+          this.layout.listRegion.show(usersView);
       },
 
       getUsersView: function() {
