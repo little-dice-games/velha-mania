@@ -4,6 +4,7 @@ RootSocket = function(app, users) {
             if (user.id == req.socket.id) {
               var index = users.indexOf(user);
               if (index > -1) { users.splice(index, 1); }
+              req.io.broadcast('users/delete', { data: user });
             }
         });
     });

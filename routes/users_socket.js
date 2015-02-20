@@ -1,7 +1,7 @@
 UsersSocket = function(app, users) {
     var roomId = 'velha-mania-users';
 
-    app.io.route('user/new', function(req) {
+    app.io.route('users/new', function(req) {
         user = {
           id: req.socket.id,
           isPlaying: false,

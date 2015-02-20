@@ -1,0 +1,2 @@
+<img src=<%= avatar %>/>
+<span class='username'><%= username %></span>

@@ -3,121 +3,140 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
   var users = void 0;
 
   Entities.User = Backbone.Model.extend({
-    defaults: {
-      itsMe: false
-    },
+	defaults: {
+	  itsMe: false
+	},
 
-    mutators: {
-        username: function() {
-          return _.first(this.get('email').split('@'));
-        },
+	mutators: {
+		username: function() {
+		  return _.first(this.get('email').split('@'));
+		},
 
-        avatar: function() {
-          return 'http://www.gravatar.com/avatar/' + md5(this.get('email'));
-        }
-    },
+		avatar: function() {
+		  return 'http://www.gravatar.com/avatar/' + md5(this.get('email'));
+		}
+	},
 
-    loggout: function() {
-      this.destroy();
-    },
+	loggout: function() {
+	  this.destroy();
+	},
 
-    hasLogged: function() {
-      return !_.isEmpty(this);
-    }
+	hasLogged: function() {
+	  return !_.isEmpty(this);
+	},
+
+	itsMe: function() {
+		return this.get('itsMe')
+	}
   })
 
   Entities.Users = Backbone.Collection.extend({
-    model: Entities.User,
-    localStorage: new Backbone.LocalStorage('velha-mania-user'),
+	model: Entities.User,
+	localStorage: new Backbone.LocalStorage('velha-mania-user'),
 
-    initialize: function() {
-      io.emit('users');
-    },
+	initialize: function() {
+	  io.emit('users');
+	},
 
-    addUsers: function(users) {
-      $.each(users, function(i, user){
-        var isEmpty = _.isEmpty(this.findWhere({ email: user.email }));
-        if (isEmpty) this.add([{ email: user.email }])
-      }.bind(this))
-    },
+	addUsers: function(users) {
+	  $.each(users, function(i, user){
+		var isEmpty = _.isEmpty(this.findWhere({ email: user.email }));
+		if (isEmpty) this.add([{ email: user.email }])
+	  }.bind(this))
+	},
 
-    getCurrentUser: function() {
-      var user = _.first(this.filter(function(user) {
-        return user.get('itsMe')
-      }));
+	removeUser: function(user) {
+	  this.findWhere({ email: user.email }).destroy()
+	},
 
-      if (_.isEmpty(user)) {
-        var records = this.localStorage.findAll();
+	getCurrentUser: function() {
+	  var user = _.first(this.filter(function(user) {
+		return user.get('itsMe')
+	  }));
 
-        if (records.length == 1) {
-          this.add(records);
-          io.emit('user/new', { email: _.first(records).email });
-          user = this.getCurrentUser();
-        }
-      }
+	  if (_.isEmpty(user)) {
+		var records = this.localStorage.findAll();
 
-      return user;
-    },
+		if (records.length == 1) {
+		  this.add(records);
+		  io.emit('users/new', { email: _.first(records).email });
+		  user = this.getCurrentUser();
+		}
+	  }
 
-    create: function(email) {
-      var data = {
-        email: email,
-        itsMe: true
-      }
+	  return user;
+	},
 
-      if (_.isEmpty(this.getCurrentUser())) {
-        io.emit('user/new', { email: email });
-        Entities.Users.__super__.create.call(this, data);
-      }
+	create: function(email) {
+	  var data = {
+		email: email,
+		itsMe: true
+	  }
 
-      return this.getCurrentUser();
-    }
+	  if (_.isEmpty(this.getCurrentUser())) {
+		io.emit('users/new', { email: email });
+		Entities.Users.__super__.create.call(this, data);
+	  }
+
+	  return this.getCurrentUser();
+	}
   });
 
   API = {
-    getUsers: function() {
-      if (users == null) {
-        users = new Entities.Users();
-      }
+	getUsers: function() {
+	  if (users == null) {
+		users = new Entities.Users();
+	  }
 
-      return users;
-    },
+	  return users;
+	},
 
-    getCurrentUser: function() {
-      return this.getUsers().getCurrentUser();
-    },
+	getCurrentUser: function() {
+	  return this.getUsers().getCurrentUser();
+	},
 
-    newUser: function(email) {
-      return this.getUsers().create(email);
-    },
+	newUser: function(email) {
+	  return this.getUsers().create(email);
+	},
 
-    loggout: function() {
-      return this.getCurrentUser().loggout();
-    },
+	loggout: function() {
+	  return this.getCurrentUser().loggout();
+	},
 
-    addUsers: function(users) {
-      this.getUsers().addUsers(users)
-    }
+	addUsers: function(users) {
+	  this.getUsers().addUsers(users);
+	},
+
+	removeUser: function(user) {
+		this.getUsers().removeUser(user);
+	}
   };
 
   App.reqres.setHandler('user:entity', function() {
-    return API.getCurrentUser();
+	return API.getCurrentUser();
   });
 
   App.reqres.setHandler('users:entity', function() {
-    return API.getUsers();
+	return API.getUsers();
   });
 
   App.reqres.setHandler('new:user:entity', function(email) {
-    return API.newUser(email);
+	return API.newUser(email);
   });
 
   App.reqres.setHandler('loggout:user:entity', function() {
-    return API.loggout();
+	return API.loggout();
   });
 
+  App.reqres.setHandler('opponents:entity', function() {
+	return API.opponents()
+  })
+
   io.on('users', function(response) {
-    console.log('socket:users', response)
-    API.addUsers(response.data)
+	API.addUsers(response.data)
+  });
+
+  io.on('users/delete', function(response) {
+	API.removeUser(response.data)
   });
 });
