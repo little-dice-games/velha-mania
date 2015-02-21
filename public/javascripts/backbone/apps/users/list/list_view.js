@@ -1,13 +1,13 @@
 this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette, $, _) {
     List.Layout = Marionette.LayoutView.extend({
-        template: 'apps/users/list/templates/layout',
+        template: 'users/list/templates/layout',
         regions: {
             listRegion: '.list-region'
         }
     });
 
     List.UserView = Marionette.ItemView.extend({
-        template: 'apps/users/list/templates/user',
+        template: 'users/list/templates/user',
         className: 'user-item',
         tagName: 'li',
         triggers: {
@@ -16,7 +16,7 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
     });
 
     List.EmptyView = Marionette.ItemView.extend({
-        template: 'apps/users/list/templates/empty',
+        template: 'users/list/templates/empty',
         className: 'user-item is-empty',
         tagName: 'li'
     });

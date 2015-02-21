@@ -1,6 +1,6 @@
 this.VelhaMania.module('HomeApp.Show', function(Show, App, Backbone, Marionette, $, _) {
     Show.Layout = Marionette.LayoutView.extend({
-        template: 'apps/home/show/templates/layout',
+        template: 'home/show/templates/layout',
         regions: {
             formRegion: '.form-region'
         }
@@ -8,7 +8,7 @@ this.VelhaMania.module('HomeApp.Show', function(Show, App, Backbone, Marionette,
 
     Show.FormView = Marionette.FormView.extend({
         className: 'login',
-        template: 'apps/home/show/templates/login',
+        template: 'home/show/templates/login',
         behaviors: {
             "Form": {}
         },

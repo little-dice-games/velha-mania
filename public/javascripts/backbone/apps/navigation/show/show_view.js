@@ -1,6 +1,6 @@
 this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Marionette, $, _) {
     Show.Layout = Marionette.LayoutView.extend({
-        template: 'apps/navigation/show/templates/layout',
+        template: 'navigation/show/templates/layout',
         regions: {
             logoRegion: '.logo-region',
             navRegion: '.nav-region'
@@ -8,11 +8,11 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
     });
 
     Show.LogoView = Marionette.ItemView.extend({
-        template: 'apps/navigation/show/templates/logo'
+        template: 'navigation/show/templates/logo'
     });
 
     Show.LoggedView = Marionette.ItemView.extend({
-        template: 'apps/navigation/show/templates/logged',
+        template: 'navigation/show/templates/logged',
         ui: {
             logoutButton: '.logout'
         },
@@ -22,6 +22,6 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
     });
 
     Show.UnloggedView = Marionette.ItemView.extend({
-        template: 'apps/navigation/show/templates/unlogged'
+        template: 'navigation/show/templates/unlogged'
     });
 });

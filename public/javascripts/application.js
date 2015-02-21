@@ -10,6 +10,7 @@
 //= require backbone.routefilter/dist/backbone.routefilter
 //= require js-md5/js/md5
 
+//= require_tree ./templates
 //= require_tree ./config
 
 //= require backbone/app
