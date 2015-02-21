@@ -2,12 +2,11 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
     Show.Controller = App.Controllers.Application.extend({
         initialize: function() {
             var _this = this;
-            _this.user = App.request('user:entity');
             _this.layout = _this.getLayout();
 
             _this.listenTo(_this.layout, 'show', function() {
                 _this.logoRegion();
-            })
+            });
 
             App.navRegion.show(_this.layout);
         },
@@ -33,6 +32,7 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
         },
 
         loggedViewRegion: function() {
+            this.user = App.request('user:entity');
             var loggedView = this.getLoggedView();
 
             this.listenTo(loggedView, 'logout:clicked', function() {
@@ -45,7 +45,7 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
 
         getLoggedView: function() {
             return new Show.LoggedView({
-                model: this.user
+                model:this.user
             });
         }
     });
