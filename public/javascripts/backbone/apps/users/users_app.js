@@ -6,13 +6,15 @@ this.VelhaMania.module('UsersApp', function(UsersApp, App, Backbone, Marionette,
             'users/': 'users'
         },
 
-        after: {
+        before: {
             'users/': function(route) {
                 var user = App.request('user:entity');
 
                 if (!user) {
                     App.vent.trigger('home:visit');
+                    return false;
                 }
+                console.log('-------')
             }
         }
     });

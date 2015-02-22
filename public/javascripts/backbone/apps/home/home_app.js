@@ -8,12 +8,13 @@ this.VelhaMania.module('HomeApp', function(HomeApp, App, Backbone, Marionette, $
 
         before: {
             '': function(route) {
-            var user = App.request('user:entity');
+                var user = App.request('user:entity');
 
-            if (user && user.hasLogged()) {
-                App.vent.trigger('users:visit');
+                if (user && user.hasLogged()) {
+                    App.vent.trigger('users:visit');
+                    return false;
+                }
             }
-          }
         }
     });
 
