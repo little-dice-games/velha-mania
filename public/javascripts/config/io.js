@@ -1,2 +1,1 @@
-window.io = io.connect();
-window.socket = io.socket;
+window.socket = io.connect();

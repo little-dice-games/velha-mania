@@ -69,8 +69,10 @@ app.use(function(err, req, res, next) {
 
 app.listen(app.get('port'), function() {
     var users = [];
+
     require('./routes/root_socket')(app, users);
     require('./routes/users_socket')(app, users);
+    require('./routes/games_socket')(app, users);
 });
 
 module.exports = app;

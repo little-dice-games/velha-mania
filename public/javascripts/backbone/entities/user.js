@@ -18,7 +18,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         logout: function() {
-            io.emit('users/delete', { email: this.get('email') });
+            socket.emit('users/delete', { email: this.get('email') });
             this.destroy();
         },
 
@@ -36,7 +36,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         localStorage: new Backbone.LocalStorage('velha-mania-user'),
 
         initialize: function() {
-            io.emit('users');
+            socket.emit('users');
         },
 
         addUsers: function(users) {
@@ -60,7 +60,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
                 if (records.length == 1) {
                     this.add(records);
-                    io.emit('users/new', { email: _.first(records).email });
+                    socket.emit('users/new', { email: _.first(records).email });
                     user = this.getCurrentUser();
                 }
             }
@@ -75,7 +75,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             }
 
             if (_.isEmpty(this.getCurrentUser())) {
-                io.emit('users/new', { email: email });
+                socket.emit('users/new', { email: email });
                 Entities.Users.__super__.create.call(this, data);
             }
 
@@ -133,11 +133,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         return API.opponents()
     })
 
-    io.on('users', function(response) {
+    socket.on('users', function(response) {
         API.addUsers(response.data)
     });
 
-    io.on('users/delete', function(response) {
+    socket.on('users/delete', function(response) {
         API.removeUser(response.data)
     });
 });

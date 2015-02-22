@@ -1,6 +1,4 @@
 UsersSocket = function(app, users) {
-    var roomId = 'velha-mania-users';
-
     app.io.route('users/new', function(req) {
         user = {
             id: req.socket.id,
@@ -10,11 +8,6 @@ UsersSocket = function(app, users) {
         };
 
         users.push(user);
-
-        req.io.respond({
-            success: { roomId: roomId }
-        });
-
         req.io.broadcast('users', { data: users });
     });
 
