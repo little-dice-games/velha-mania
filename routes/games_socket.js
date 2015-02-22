@@ -15,8 +15,6 @@ GamesSocket = function(app, users) {
         req.io.respond({
             success: { roomId: 1233 }
         });
-
-        req.io.broadcast('game/invitation', { roomId: 123 });
     });
 };
 
