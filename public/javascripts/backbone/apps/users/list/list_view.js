@@ -12,6 +12,18 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         tagName: 'li',
         triggers: {
             'click': 'user:clicked'
+        },
+
+        modelEvents: {
+            'change:isPlaying' : 'visibleToggle'
+        },
+
+        visibleToggle: function() {
+            if (this.model.isPlaying()) {
+                this.$el.hide()
+            } else {
+                this.$el.show()
+            }
         }
     });
 

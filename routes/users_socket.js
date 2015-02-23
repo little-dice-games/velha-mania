@@ -8,7 +8,6 @@ UsersSocket = function(app, users) {
     });
 
     app.io.route('user', function(req) {
-        console.log(req.data.email);
         if (!req.data.email) { return };
 
         req.io.broadcast('user', {

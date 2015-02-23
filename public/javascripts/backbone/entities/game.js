@@ -6,7 +6,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
     API = {
         invite: function(opponent) {
-            socket.emit('game/send/invitation', { opponent: opponent.attributes })
+            socket.emit('game/invitation', { opponent: opponent.attributes })
         }
     };
 

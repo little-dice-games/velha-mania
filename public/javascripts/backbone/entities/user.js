@@ -4,7 +4,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
     Entities.User = Backbone.Model.extend({
         defaults: {
-            itsMe: false
+            itsMe: false,
+            isPlaying: false
         },
 
         mutators: {
@@ -26,8 +27,12 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             return !_.isEmpty(this);
         },
 
+        isPlaying: function() {
+            return this.get('isPlaying');
+        },
+
         itsMe: function() {
-            return this.get('itsMe')
+            return this.get('itsMe');
         }
     })
 
@@ -41,11 +46,12 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
         addOrUpdateUser: function(user) {
             var userOnCollection = this.findWhere({ email: user.email });
+            attributes = _.pick(user, 'email', 'isPlaying')
 
             if (_.isEmpty(userOnCollection)) {
-                this.add([{ email: user.email }])
+                this.add([attributes])
             } else {
-                userOnCollection.set(user);
+                userOnCollection.set(attributes);
             }
         },
 
@@ -147,6 +153,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     })
 
     socket.on('users', function(response) {
+        console.log('users')
         API.addUsers(response.data)
     });
 
