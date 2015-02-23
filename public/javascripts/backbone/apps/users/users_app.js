@@ -14,7 +14,6 @@ this.VelhaMania.module('UsersApp', function(UsersApp, App, Backbone, Marionette,
                     App.vent.trigger('home:visit');
                     return false;
                 }
-                console.log('-------')
             }
         }
     });
