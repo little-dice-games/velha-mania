@@ -15,6 +15,18 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     });
 
     socket.on('game/invitation', function(response) {
-        console.log(response);
+        console.log(response, 'invitation - abrir a janela de confimação');
+    });
+
+    socket.on('game/invitation/canceled', function(response) {
+        console.log(response, 'canceled')
+    });
+
+    socket.on('game/invitation/rejected', function(response) {
+        socket.emit('game/invitation/rejected', response);
+    });
+
+    socket.on('game/start', function() {
+        console.log('game:start')
     });
 });

@@ -19,7 +19,6 @@ UsersSocket = function(app, users) {
         user = {
             id: req.socket.id,
             isPlaying: false,
-            loggedAt: Date.now(),
             email: req.data.email
         };
 

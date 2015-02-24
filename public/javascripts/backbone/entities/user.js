@@ -95,6 +95,12 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             }
 
             return this.getCurrentUser();
+        },
+
+        isEmpty: function() {
+            return this.where({ isPlaying: false }).length == 1 &&
+            this.first() &&
+            this.first().itsMe()
         }
     });
 

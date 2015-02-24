@@ -1,35 +1,51 @@
 GamesSocket = function(app, users) {
     var _ = require('underscore');
+    var timer = undefined;
 
     app.io.route('game/invitation', function(req) {
         var opponent = req.data.opponent;
         var roomId = _.uniqueId('room')
 
         var opponent = _.findWhere(users, { email: opponent.email });
-        app.io.sockets.socket(opponent.id).emit('game/invitation', { roomId: roomId })
+        var user = _.findWhere(users, { id: req.socket.id });
+        user.isPlaying = true;
 
-        _.findWhere(users, { id: req.socket.id }).isPlaying = true;
+        app.io.sockets.socket(opponent.id).emit('game/invitation', { data: { user: user, roomId: roomId }})
+
+        timer = setTimeout(function() {
+            req.io.route('game/invitation/canceled')
+        } ,30000)
 
         req.io.join(roomId);
         req.io.broadcast('users', { data: users });
     });
 
-    app.io.route('game/invitation/accepted', function(req) {
-        _.findWhere(users, { id: req.socket.id }).isPlaying = true;
-        req.io.join(req.data.roomId).emit('game/start');
-        req.io.broadcast('users', { data: users });
-    });
-
     app.io.route('game/invitation/canceled', function(req) {
-        var opponent = _.findWhere(users, { email: opponent.email });
+        if (timer) { clearTimeout(timer) };
+        var opponent = _.findWhere(users, { email: req.data.opponent.email });
         app.io.sockets.socket(opponent.id).emit('game/invitation/canceled');
         _.findWhere(users, { id: req.socket.id }).isPlaying = false;
         req.io.broadcast('users', { data: users });
     });
 
+    app.io.route('game/invitation/accepted', function(req) {
+        if (timer) { clearTimeout(timer) };
+        var room = req.data.roomId;
+
+        _.findWhere(users, { id: req.socket.id }).isPlaying = true;
+
+        req.io.join(room);
+        app.io.room(room).broadcast('game/start');
+        req.io.broadcast('users', { data: users });
+    });
+
     app.io.route('game/invitation/rejected', function(req) {
-        req.io.join(req.data.roomId).broadcast('game/invitation/rejected', { roomId: req.data.roomId });
-        req.io.leave(req.data.roomId);
+        if (timer) { clearTimeout(timer) };
+        var room = req.data.roomId;
+
+        req.io.join(room);
+        req.io.room(room).broadcast('game/invitation/rejected', { roomId: req.data.roomId });
+        req.io.leave(room);
 
         _.findWhere(users, { id: req.socket.id }).isPlaying = false;
         req.io.broadcast('users', { data: users });

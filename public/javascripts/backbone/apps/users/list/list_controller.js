@@ -23,6 +23,10 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
                 App.request('invite:game:entity', child.model);
             });
 
+            this.listenTo(usersView, 'childview:user:view:toggled', function() {
+                usersView.checkEmpty();
+            });
+
             this.layout.listRegion.show(usersView);
         },
 

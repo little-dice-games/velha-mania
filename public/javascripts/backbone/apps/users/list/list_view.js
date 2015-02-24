@@ -24,6 +24,8 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
             } else {
                 this.$el.show()
             }
+
+            this.trigger('user:view:toggled');
         }
     });
 
@@ -39,9 +41,15 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         className: 'user-list',
         tagName: 'ul',
 
+        modelEvents: {
+            'change:isPlaying': 'checkEmpty'
+        },
+
         checkEmpty: function() {
-            if (this.collection.length == 1 && this.collection.first() && this.collection.first().itsMe()) {
+            if (this.collection.isEmpty()) {
                 this.showEmptyView();
+            } else {
+                // this.destroyEmptyView();
             }
         },
 
