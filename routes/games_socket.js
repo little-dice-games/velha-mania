@@ -4,7 +4,9 @@ GamesSocket = function(app, users) {
 
     app.io.route('game/invitation', function(req) {
         var opponent = req.data.opponent;
-        var roomId = _.uniqueId('room')
+        var roomId = _.uniqueId('room');
+
+        req.data.roomId = roomId;
 
         var opponent = _.findWhere(users, { email: opponent.email });
         var user = _.findWhere(users, { id: req.socket.id });
@@ -13,7 +15,7 @@ GamesSocket = function(app, users) {
         app.io.sockets.socket(opponent.id).emit('game/invitation', { data: { user: user, roomId: roomId }})
 
         timer = setTimeout(function() {
-            req.io.route('game/invitation/canceled')
+            req.io.route('game/invitation/canceled');
         } ,30000)
 
         req.io.join(roomId);
@@ -22,9 +24,15 @@ GamesSocket = function(app, users) {
 
     app.io.route('game/invitation/canceled', function(req) {
         if (timer) { clearTimeout(timer) };
+        var roomId = req.data.roomId;
+
         var opponent = _.findWhere(users, { email: req.data.opponent.email });
+        var user = _.findWhere(users, { id: req.socket.id });
+        user.isPlaying = false;
+
+        req.io.leave(roomId);
+
         app.io.sockets.socket(opponent.id).emit('game/invitation/canceled');
-        _.findWhere(users, { id: req.socket.id }).isPlaying = false;
         req.io.broadcast('users', { data: users });
     });
 
@@ -41,7 +49,6 @@ GamesSocket = function(app, users) {
 
     app.io.route('game/invitation/rejected', function(req) {
         if (timer) { clearTimeout(timer) };
-        console.log(req.data.roomId, timer);
         var room = req.data.roomId;
 
         req.io.join(room);
