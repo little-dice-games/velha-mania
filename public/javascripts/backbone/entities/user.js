@@ -61,6 +61,12 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             }.bind(this))
         },
 
+        byEmail: function(email) {
+            var user = this.where({ email: email });
+            console.log(email, user);
+            return _.first(user);
+        },
+
         removeUser: function(user) {
             this.findWhere({ email: user.email }).destroy()
         },
@@ -117,6 +123,10 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             return this.getUsers().getCurrentUser();
         },
 
+        getUserByEmail: function(email) {
+            return this.getUsers().byEmail(email);
+        },
+
         newUser: function(email) {
             return this.getUsers().create(email);
         },
@@ -138,6 +148,10 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         }
     };
 
+    App.reqres.setHandler('user:by:email:entity', function(email) {
+        return API.getUserByEmail(email);
+    });
+
     App.reqres.setHandler('user:entity', function() {
         return API.getCurrentUser();
     });
@@ -155,20 +169,18 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     });
 
     App.reqres.setHandler('opponents:entity', function() {
-        return API.opponents()
+        return API.opponents();
     })
 
     socket.on('users', function(response) {
-        console.log('users')
-        API.addUsers(response.data)
+        API.addUsers(response.data);
     });
 
     socket.on('user', function(response) {
-        console.log('user add or update')
-        API.addUser(response.data)
+        API.addUser(response.data);
     });
 
     socket.on('users/delete', function(response) {
-        API.removeUser(response.data)
+        API.removeUser(response.data);
     });
 });

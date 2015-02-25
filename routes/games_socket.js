@@ -41,6 +41,7 @@ GamesSocket = function(app, users) {
 
     app.io.route('game/invitation/rejected', function(req) {
         if (timer) { clearTimeout(timer) };
+        console.log(req.data.roomId, timer);
         var room = req.data.roomId;
 
         req.io.join(room);

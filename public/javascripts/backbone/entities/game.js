@@ -15,7 +15,22 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     });
 
     socket.on('game/invitation', function(response) {
-        console.log(response, 'invitation - abrir a janela de confimação');
+        var user = App.request('user:by:email:entity', response.data.user.email);
+        console.log(user);
+        App.vent.trigger('show:modal', {
+            message: user.get('username') + 'te convidou para jogar. Aceita o convite?',
+            roomId: response.data.roomId
+        })
+    });
+
+    App.commands.setHandler('when:modal:answered', function(response) {
+        if (response.answered) {
+            console.log(response);
+            socket.emit('game/invitation/accepted', response);
+        }  else {
+            console.log(response);
+            socket.emit('game/invitation/rejected', response);
+        }
     });
 
     socket.on('game/invitation/canceled', function(response) {
@@ -23,6 +38,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     });
 
     socket.on('game/invitation/rejected', function(response) {
+        console.log(response, 'rejected');
         socket.emit('game/invitation/rejected', response);
     });
 
