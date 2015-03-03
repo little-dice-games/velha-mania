@@ -31,3 +31,5 @@ node_modules
 # Bower components
 vendor/assets/javascripts/bower_components
 public/javascripts/templates
+public/stylesheets/
+.sass-cache/

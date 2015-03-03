@@ -20,7 +20,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', home);
@@ -65,7 +65,6 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 app.listen(app.get('port'), function() {
     var users = [];
