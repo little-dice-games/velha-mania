@@ -15,7 +15,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "forever ./bin/www"
+    "start": "./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.8.1",

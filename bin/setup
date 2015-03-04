@@ -1,1 +1,44 @@
 #!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var ROOT = path.resolve(__dirname, '..');
+var child = require('child_process');
+
+var rmdir = function(directories, callback) {
+    if(typeof directories === 'string') {
+        directories = [directories];
+    }
+
+    var args = directories;
+    args.unshift('-rf');
+
+    child.execFile('rm', args, {env:process.env}, function(err, stdout, stderr) {
+        if (callback) { callback.apply(this, arguments) };
+    });
+};
+
+console.log('== Installing dependencies ==');
+
+rmdir([
+  path.join(ROOT, 'node_modules'),
+  path.join(ROOT, 'vendor', 'assets', 'javascripts', 'bower_components')
+], function() {
+  console.log('node_modules has been removed!')
+  console.log('bower_components has been removed!')
+  console.log('npm install...');
+
+  child.exec('npm install', function(err, out) {
+    if (!err) {
+      console.log('npm has been successfully installed!');
+      console.log('bower install...');
+
+      child.exec('bower install', function(err, out) {
+        if (!err) {
+          console.log('bower has been successfully installed!');
+          console.log('setup has been performed successfully!');
+        }
+      });
+    }
+  });
+});
