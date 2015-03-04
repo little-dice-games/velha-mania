@@ -7,6 +7,7 @@ this.VelhaMania = (function(Backbone, Marionette) {
     });
 
     App.addInitializer(function() {
+        App.module('Utilities').start();
         App.module('HomeApp').start();
         App.module('UsersApp').start();
     });

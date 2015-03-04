@@ -1,5 +1,5 @@
 this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionette, $, _) {
-    _.extend(App, {
+    var API = {
         navigate: function(route, options) {
             if (_.isNull(options)) {
                 options = {};
@@ -38,20 +38,31 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
             if (Backbone.history) {
                 return Backbone.history.start({ pushState: true });
             }
-        }
-    });
+        },
 
-    var API = {
-        navigate: function(path, options) {
+        navigation: function(path, options) {
             var path = path ? path : '/';
 
             setTimeout(function() {
                 App.navigate(App.urlFor(path), options);
             }, 1)
+        },
+
+        start: function() {
+            _.extend(App, {
+                navigate: API.navigate,
+                getCurrentRoute: API.getCurrentRoute,
+                urlFor: API.urlFor,
+                startHistory: API.startHistory
+            });
         }
-    };
+    }
+
+    Utilities.on('start', function() {
+        API.start();
+    })
 
     App.vent.on('visit', function(path, options) {
-        API.navigate(path, options);
+        API.navigation(path, options);
     });
 });

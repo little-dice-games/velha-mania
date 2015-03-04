@@ -1,12 +1,13 @@
 this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionette, $, _) {
-    _.extend(Marionette.Renderer, {
-        lookups: ['backbone/apps', 'backbone/components'],
-        templates: {},
+    var API = {
+        lookups: function() {
+            return ['backbone/apps', 'backbone/components'];
+        },
 
         render: function(template, data) {
             if (!template) { return }
 
-            var path = this.getTemplate(template);
+            var path = API.getTemplate(template);
 
             if (!path) {
                 throw "Template " + template + " not found!";
@@ -18,7 +19,7 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
         getTemplate: function(template) {
             var templateFunction = ''
 
-            $.each(this.lookups, function(i, lookup) {
+            $.each(API.lookups(), function(i, lookup) {
                 path = lookup + '/' + template;
 
                 if (JST[path]) {
@@ -27,7 +28,14 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
             });
 
             return templateFunction;
-        }
+        },
 
+        renderer: function() {
+            _.extend(Marionette.Renderer, { render: API.render })
+        }
+    };
+
+    Utilities.on('start', function() {
+        API.renderer();
     });
 });
