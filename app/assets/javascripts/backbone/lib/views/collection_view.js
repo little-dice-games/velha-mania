@@ -1,8 +1,8 @@
-console.log('foo')
+var _showEmptyView = Marionette.CollectionView.prototype.showEmptyView;
+
 _.extend(Marionette.CollectionView.prototype, {
     showEmptyView: function() {
-        console.log('extends')
         this.isShowedEmptyView = true;
-        return Marionette.CollectionView.prototype.showEmptyView;
+        _showEmptyView.call(this);
     }
 });
