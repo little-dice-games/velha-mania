@@ -29,6 +29,7 @@
     "backbone.routefilter": "git@github.com:boazsender/backbone.routefilter.git",
     "backbone.mutators": "0.4.4",
     "js-md5": "1.1.0",
-    "materialize": "~0.95.3"
+    "materialize": "~0.95.3",
+    "jade": "~1.9.2"
   }
 }

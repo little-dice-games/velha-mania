@@ -1,8 +1,0 @@
-<form class='form-login' novalidate>
-  <fieldset class='controls'>
-    <label>Email:</label>
-    <input class='email' for='email' data-field='email' type='email'>
-  </fieldset>
-
-  <button class="button-submit" type="submit">login</button>
-</form>

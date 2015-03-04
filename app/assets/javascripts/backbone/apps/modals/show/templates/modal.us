@@ -1,4 +1,0 @@
-<%= message %>
-
-<a class='modal-button modal-button--yes'>sim</a>
-<a class='modal-button modal-button--no'>não</a>
