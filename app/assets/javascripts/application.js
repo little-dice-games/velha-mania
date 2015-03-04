@@ -9,6 +9,7 @@
 //= require backbone.mutators/backbone.mutators
 //= require backbone.routefilter/dist/backbone.routefilter
 //= require js-md5/js/md5
+//= require materialize/dist/js/materialize
 
 //= require_tree ./templates
 //= require_tree ./config

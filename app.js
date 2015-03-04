@@ -9,6 +9,34 @@ var home = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var ConnectMincer = require('connect-mincer');
+var Mincer = require('mincer');
+var env = process.env.NODE_ENV;
+
+// assets
+var mincer = new ConnectMincer({
+  mincer: Mincer,
+  root: __dirname,
+  production: env === 'production' || env === 'staging',
+  mountPoint: 'assets',
+  manifestFile: __dirname + '/public/assets/manifest.json',
+  paths: [
+    'app/assets/images',
+    'app/assets/stylesheets',
+    'app/assets/javascripts',
+    'vendor/assets/javascripts/bower_components'
+  ],
+  // precompiling can take a long time: when testing, you may want to turn it off
+  precompile: env !== 'test'
+});
+
+app.use(mincer.assets());
+
+if (env === 'production' || env === 'staging') {
+  app.use(express.static(__dirname + '/public'));
+} else {
+  app.use('/assets', mincer.createServer());
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,20 +49,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', home);
 app.use('/users/', users);
-
-// assets
-app.use(require("connect-assets")({
-    paths: [
-        'public/stylesheets/',
-        'vendor/assets/javascripts/bower_components',
-        'public/javascripts/'
-    ],
-    build: { dev: true }
-}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

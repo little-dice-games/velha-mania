@@ -2,10 +2,11 @@ doctype html
 html
   head
     title= title
-    != css('application')
     != LRScript
-    != js('application', { async: true })
+
     script(src='/socket.io/socket.io.js')
+    != css('application.css')
+    != js('application.js', { async: true })
 
   body
     block content

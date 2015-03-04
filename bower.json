@@ -28,6 +28,7 @@
     "backbone.localStorage": "1.1.16",
     "backbone.routefilter": "git@github.com:boazsender/backbone.routefilter.git",
     "backbone.mutators": "0.4.4",
-    "js-md5": "1.1.0"
+    "js-md5": "1.1.0",
+    "materialize": "~0.95.3"
   }
 }
