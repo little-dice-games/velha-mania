@@ -1,0 +1,112 @@
+// *************************************
+//
+//   Config
+//   -> Fonts, Variables
+//
+// *************************************
+
+// -------------------------------------
+//   @font-face
+// -------------------------------------
+
+// ----- Imports ----- //
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100)
+
+// ----- Roboto ----- //
+
++font-face('Roboto', 'Roboto')
+
+// -------------------------------------
+//   Colors
+// -------------------------------------
+
+// ----- Palette ----- //
+
+$blue: rgba(27, 66, 152, 1)
+$light-blue: #8EA1CC
+$orange: #FF6A2C
+$white: #FFF
+
+// ----- Base ----- //
+
+$c-background: $blue
+$c-border: lighten($light-blue, 20%)
+$c-text: $white
+$c-highlight: lighten($blue, 90%)
+
+// ----- Components ----- //
+
+// ...
+
+// ----- Structures ----- //
+
+// ...
+
+// -------------------------------------
+//   Base
+// -------------------------------------
+
+// ----- Borders & Box Shadow ----- //
+
+$b-borderRadius: 3px
+$b-borderStyle: solid
+$b-borderWidth: 1px
+$b-border: $b-borderWidth $b-borderStyle $c-border
+$b-boxShadow: 0 2px 0 rgba($c-text, 0.25)
+
+// ----- Typography ----- //
+
+$b-fontFamily: Roboto
+$b-fontFamily-heading: $b-fontFamily
+$b-fontSize: 16px
+$b-fontSize-xs: 60%
+$b-fontSize-s: 75%
+$b-fontSize-m: 90%
+$b-fontSize-l: 115%
+$b-fontSize-xl: 150%
+$b-lineHeight: 1.5
+
+// ----- Space ----- //
+
+$b-space-scale: 0.8
+$b-space: 10px
+$b-space-xs: $b-space * $b-space-scale * 1
+$b-space-s: $b-space * $b-space-scale * 2
+$b-space-m: $b-space * $b-space-scale * 3
+$b-space-l: $b-space * $b-space-scale * 4
+$b-space-xl: $b-space * $b-space-scale * 5
+
+// -------------------------------------
+//   Components
+// -------------------------------------
+
+// ----- Grid ----- //
+
+// Breakpoints
+
+$g-sm: 320px
+$g-md: 480px
+$g-ml: 640px
+$g-lg: 768px
+$g-lg2: 990px
+$g-xlg: 1200px
+$g-xlg2: 1920px
+$g-xxlg2: 2560px
+
+// Settings
+
+$g-columns: 25
+$g-defaults: "sm" $g-sm, "md" $g-md, "ml" $g-ml, "lg" $g-lg, "lg2" $g-lg2, "xlg" $g-xlg, "xlg2" $g-xlg2, "xxlg2" $g-xxlg2
+$g-gutter: $b-space
+$g-silent: true
+
+// Selector
+
+$g-selector: if($g-silent, unquote("%"), unquote("."))
+
+// -------------------------------------
+//   Structures
+// -------------------------------------
+
+// ...
