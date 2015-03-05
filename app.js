@@ -24,6 +24,7 @@ var mincer = new ConnectMincer({
     'app/assets/images',
     'app/assets/stylesheets',
     'app/assets/javascripts',
+    'app/assets/font',
     'vendor/assets/javascripts/bower_components'
   ],
   // precompiling can take a long time: when testing, you may want to turn it off
