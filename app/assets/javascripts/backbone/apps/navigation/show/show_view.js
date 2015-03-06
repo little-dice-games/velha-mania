@@ -14,10 +14,14 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
     Show.LoggedView = Marionette.ItemView.extend({
         template: 'navigation/show/templates/logged',
         ui: {
-            logoutButton: '.logout'
+            logoutButton: '.logout',
+            buttonCollapse: '.button-collapse'
         },
         triggers: {
             'click @ui.logoutButton' : 'logout:clicked'
+        },
+        onShow: function() {
+            this.ui.buttonCollapse.sideNav()
         }
     });
 
