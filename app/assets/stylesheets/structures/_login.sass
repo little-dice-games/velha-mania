@@ -1,0 +1,34 @@
+// *************************************
+//
+//   Login
+//
+// *************************************
+
+.login
+  @extend .container
+  @extend .valign-wrapper
+
+// -------------------------------------
+//   Controls
+// -------------------------------------
+
+.login
+  .form-login
+    @extend .valign
+    background: #FFF
+    border: none
+    margin-top: 50px
+    padding: em(20px)
+    width: 100%
+
+  .controls
+    .row:last-child, button
+      margin-bottom: 0px
+
+  .button-submit
+    @extend .btn
+    @extend .waves-effect
+    @extend .waves-light
+    width: 100%
+    i
+      @extend .right
