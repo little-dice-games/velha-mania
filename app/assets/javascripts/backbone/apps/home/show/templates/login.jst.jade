@@ -1,6 +1,12 @@
 form.form-login(novalidate)
   fieldset.controls
-    label Email:
-    input.email(for='email' data-field='email' type='email')
-
-  button(class='button-submit' type='submit') login
+    .row
+      label Username:
+      input.username(for='username' data-field='username' type='text')
+    .row
+      label Email:
+      input.email(for='email' data-field='email' type='email')
+    .row
+      button(class='button-submit' type='submit')
+        | Entrar
+        i.mdi-content-send

@@ -1,0 +1,43 @@
+// *************************************
+//
+//   Login
+//
+// *************************************
+
+.login
+  @extend .container
+  @extend .valign-wrapper
+
+// -------------------------------------
+//   Controls
+// -------------------------------------
+
+.login
+  .form-login
+    @extend .valign
+    background: $c-form-background
+    margin-top: 50px
+    padding: em(20px)
+    width: 100%
+
+  .controls
+    border: none
+    .row:last-child, button
+      margin-bottom: 0px
+    input
+      color: $c-text-inverter
+      &:focus
+        border-bottom: 1px solid $c-input-focus
+        box-shadow: 0 1px 0 0 $c-input-focus
+
+  .button-submit
+    @extend .btn
+    @extend .waves-effect
+    @extend .waves-light
+    background-color: $c-button-background
+    width: 100%
+    i
+      @extend .right
+
+    &:hover
+      background-color: $c-button-highlight-background
