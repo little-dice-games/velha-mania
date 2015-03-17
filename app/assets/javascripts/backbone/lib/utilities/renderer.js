@@ -1,7 +1,7 @@
 this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionette, $, _) {
     var API = {
         lookups: function() {
-            return ['backbone/apps', 'backbone/components'];
+            return ['backbone/apps', 'backbone/lib/components'];
         },
 
         render: function(template, data) {
@@ -21,7 +21,6 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
 
             $.each(API.lookups(), function(i, lookup) {
                 path = lookup + '/' + template;
-
                 if (JST[path]) {
                     templateFunction = JST[path];
                 }
