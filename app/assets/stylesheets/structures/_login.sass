@@ -13,31 +13,49 @@
 // -------------------------------------
 
 .login
-  .form-login
-    @extend .valign
-    background: $c-form-background
-    margin-top: 50px
-    padding: em(20px)
-    width: 100%
+  @extend %centralize
 
-  .controls
-    border: none
-    .row:last-child, button
-      margin-bottom: 0px
-    input
-      color: $c-text-inverter
-      &:focus
-        border-bottom: 1px solid $c-input-focus
-        box-shadow: 0 1px 0 0 $c-input-focus
+.login-form
+  @extend .valign
+  background: $c-form-background
+  margin-top: em(50px)
+  padding: em(20px)
+  width: 100%
 
-  .button-submit
-    @extend .btn
-    @extend .waves-effect
-    @extend .waves-light
-    background-color: $c-button-background
-    width: 100%
-    i
-      @extend .right
+.login-form .controls
+  border: none
 
-    &:hover
-      background-color: $c-button-highlight-background
+  .row:last-child
+    margin-bottom: 0px
+
+  input
+    color: $c-text-inverter
+
+// State
+
+.login-form .controls input.is-invalid
+  border-bottom: 1px solid $c-input-border-is-invalid
+
+.login-form .controls label.is-invalid
+  color: $c-label-is-invalid
+
+.login-form .controls label.active
+  color: $c-input-focus
+
+.login-form .controls input:focus
+  border-bottom: 1px solid $c-input-focus
+  box-shadow: 0 1px 0 0 $c-input-focus
+
+.login-button-submit
+  @extend .btn-large
+  @extend .waves-light
+  background-color: $c-button-background
+  margin-bottom: 0px
+  width: 100%
+  i
+    @extend .right
+
+// State
+
+.login-button-submit:hover
+  background-color: $c-button-highlight-background

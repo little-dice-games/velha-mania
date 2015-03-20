@@ -9,31 +9,26 @@ this.VelhaMania.module('Behaviors', function(Behaviors, App, Backbone, Marionett
         listeningToEvents: function() {
             this.view.onSubmitFail = function(errors) {
                 $.each(errors, function(i, error) {
-                    this.appendError(error.el, _.first(error.error));
+                    this.addInvalidClass(this.$el.find(error.el));
+                    toast(_.first(error.error), 8000)
                 }.bind(this));
             }.bind(this);
 
             this.view.onSubmit = function(e) {
                 e.preventDefault();
-                this.clear();
                 this.view.trigger('form:submited', this.view.serializeFormData())
             }.bind(this);
         },
 
-        appendError: function(el, message) {
-            this.clear();
-            $('<div>', { class: this.errorWrapperName }).insertAfter(el);
-
-            this.tooltip = App.request('tooltip:wrapper', {
-                el: this.errorWrapperName,
-                message: message
-            });
+        addInvalidClass: function(el) {
+            this.removeInvalidClass(el);
+            el.prev().addClass('is-invalid');
+            el.addClass('is-invalid');
         },
 
-        clear: function() {
-            if (this.tooltip) {
-                this.tooltip.destroy();
-            }
+        removeInvalidClass: function(el) {
+            el.removeClass('is-invalid');
+            el.prev().removeClass('is-invalid');
         }
     });
 });

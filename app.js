@@ -13,11 +13,14 @@ var ConnectMincer = require('connect-mincer');
 var Mincer = require('mincer');
 var env = process.env.NODE_ENV;
 
+// Non cached when production
+require('./middlewares/mincer/environment')(Mincer, env);
+
 // assets
 var mincer = new ConnectMincer({
   mincer: Mincer,
   root: __dirname,
-  production: env === 'production' || env === 'staging',
+  production: env === 'production',
   mountPoint: 'assets',
   manifestFile: __dirname + '/public/assets/manifest.json',
   paths: [
@@ -27,16 +30,16 @@ var mincer = new ConnectMincer({
     'app/assets/font',
     'vendor/assets/javascripts/bower_components'
   ],
-  // precompiling can take a long time: when testing, you may want to turn it off
+
   precompile: env !== 'test'
 });
 
 app.use(mincer.assets());
 
-if (env === 'production' || env === 'staging') {
-  app.use(express.static(__dirname + '/public'));
+if (env === 'production') {
+    app.use(express.static(__dirname + '/public'));
 } else {
-  app.use('/assets', mincer.createServer());
+    app.use('/assets', mincer.createServer());
 }
 
 // view engine setup
