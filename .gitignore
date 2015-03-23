@@ -30,6 +30,5 @@ node_modules
 
 # Bower components
 vendor/assets/javascripts/bower_components
-public/javascripts/templates
-public/stylesheets/
+public/assets/
 .sass-cache/

@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var Mincer = require('mincer');
+var path = require('path');
+var rootPath = path.resolve(__dirname, '..');
+var wrench = require('wrench');
+var fs = require('fs');
+var publicAssetsPath = path.resolve(rootPath, 'public/assets');
+
+// remove existing manifest/assets if it exists
+if (fs.existsSync(publicAssetsPath)) {
+  wrench.rmdirSyncRecursive(publicAssetsPath);
+}
+
+var env = new Mincer.Environment(rootPath);
+[
+  path.resolve(rootPath, 'app/assets/font'),
+  path.resolve(rootPath, 'vendor/assets/javascripts/bower_components'),
+  path.resolve(rootPath, 'app/assets/javascripts'),
+  path.resolve(rootPath, 'app/assets/stylesheets')
+].forEach(function(path) {
+  env.appendPath(path);
+});
+
+var manifest = new Mincer.Manifest(env, publicAssetsPath);
+manifest.compile(['**/*.js', '*.sass', '*.css', '*.scss'], function(err, data) {
+  console.info('Finished precompile:');
+});
