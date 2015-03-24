@@ -6,8 +6,38 @@
 
 nav
   background-color: $c-nav-background
-  .nav-region
+  div
     @extend .nav-wrapper
-  .brand-logo
-    @extend .center
-    border: none
+
+.nav
+  @extend .right
+
+// -------------------------------------
+//   Scaffolding
+// -------------------------------------
+
+// -------- Item -------- //
+
+.nav-item
+  cursor: pointer
+  font-weight: 100
+
+// -------- Logo -------- //
+
+.brand-logo
+  @extend .center
+  border: none
+  color: $c-brand-logo !important
+  font-weight: 100
+
+// -------- Avatar -------- //
+
+.nav-avatar
+  height: em(64px)
+  width: em(64px)
+
+// -------- Logout -------- //
+
+.nav-logout i
+  @extend .right
+  font-size: 1rem
