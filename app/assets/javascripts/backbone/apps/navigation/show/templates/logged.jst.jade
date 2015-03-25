@@ -1,18 +1,7 @@
-a(href='#' data-activates='mobile-demo' class='button-collapse')
-  i.mdi-navigation-menu
-
-ul(id='nav-mobile' class='right hide-on-med-and-down')
-  li
-    | Ola
-    img(src= avatar)
-    h3= username
-  li
-    a.logout sair
-
-ul(id='mobile-demo' class='side-nav')
-  li
-    | Ola
-    img(src= avatar)
-    h3= username
-  li
-    a.logout sair
+ul.nav
+  li.nav-item
+    img(src= avatar class='nav-avatar')
+  li.nav-item
+    a.nav-logout
+      | Sair
+      i.mdi-navigation-close

@@ -1,6 +1,7 @@
 this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Marionette, $, _) {
     Show.Layout = Marionette.LayoutView.extend({
         template: 'navigation/show/templates/layout',
+        className: 'nav-wrapper',
         regions: {
             logoRegion: '.logo-region',
             navRegion: '.nav-region'
@@ -14,7 +15,7 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
     Show.LoggedView = Marionette.ItemView.extend({
         template: 'navigation/show/templates/logged',
         ui: {
-            logoutButton: '.logout',
+            logoutButton: '.nav-logout',
             buttonCollapse: '.button-collapse'
         },
         triggers: {

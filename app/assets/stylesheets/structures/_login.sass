@@ -5,15 +5,15 @@
 // *************************************
 
 .login
+  @extend %centralize
   @extend .container
   @extend .valign-wrapper
 
 // -------------------------------------
-//   Controls
+//   Scaffolding
 // -------------------------------------
 
-.login
-  @extend %centralize
+// -------- Form -------- //
 
 .login-form
   @extend .valign
@@ -21,6 +21,8 @@
   margin-top: em(50px)
   padding: em(20px)
   width: 100%
+
+// -------- Controls -------- //
 
 .login-form .controls
   border: none
@@ -45,6 +47,8 @@
 .login-form .controls input:focus
   border-bottom: 1px solid $c-input-focus
   box-shadow: 0 1px 0 0 $c-input-focus
+
+// -------- Submit -------- //
 
 .login-button-submit
   @extend .btn-large
