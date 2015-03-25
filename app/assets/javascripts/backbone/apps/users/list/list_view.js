@@ -8,8 +8,8 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
 
     List.UserView = Marionette.ItemView.extend({
         template: 'users/list/templates/user',
-        className: 'user-item',
         tagName: 'li',
+        className: 'user-item',
         triggers: {
             'click': 'user:clicked'
         },
