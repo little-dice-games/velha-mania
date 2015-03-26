@@ -1,0 +1,59 @@
+// *************************************
+//
+//   User
+//
+// *************************************
+
+.user
+  @extend .row
+  @extend .waves-blue
+  height: em(70px)
+  margin-bottom: 0
+  padding: $b-user-item-space
+  width: 100%
+
+// -------------------------------------
+//   Scaffolding
+// -------------------------------------
+
+// -------- List -------- //
+
+.user-list
+  @extend .card
+  margin: em($b-user-list-space) auto 0
+  min-width: em(200px)
+  max-width: em(500px)
+  padding: $b-user-list-space
+
+// -------- Item -------- //
+
+.user-item
+  width: 100%
+
+// -------- Avatar -------- //
+
+.user-avatar
+  @extend .col
+  @extend .m3
+  @extend .s12
+  @extend .card-image
+  height: em(50px)
+  text-align: center
+  img
+    height: em(50px)
+    width: em(50px) !important
+
+// -------- Username -------- //
+
+.user-username
+  @extend .col
+  @extend .m9
+  @extend .s12
+  @extend .card-content
+  line-height: em(50px)
+  height: em(50px)
+  padding: 0 !important
+  span
+    @extend .card-title
+    color: $c-username-color !important
+    font-weight: 100
