@@ -41,18 +41,6 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         className: 'user-list',
         tagName: 'ul',
 
-        modelEvents: {
-            'change:isPlaying': 'checkEmpty'
-        },
-
-        checkEmpty: function() {
-            if (this.collection.isEmpty()) {
-                this.showEmptyView();
-            } else {
-                // this.destroyEmptyView();
-            }
-        },
-
         addChild: function(child, ChildView, index){
             if (!child.itsMe()) {
                 List.UsersView.__super__.addChild.call(this, child, ChildView, index);
