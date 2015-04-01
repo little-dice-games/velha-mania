@@ -31,8 +31,8 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
 
     List.EmptyView = Marionette.ItemView.extend({
         template: 'users/list/templates/empty',
-        className: 'user-item is-empty',
-        tagName: 'li'
+        className: 'empty',
+        tagName: 'span'
     });
 
     List.UsersView = Marionette.CollectionView.extend({

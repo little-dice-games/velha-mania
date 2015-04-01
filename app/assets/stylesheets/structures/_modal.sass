@@ -1,0 +1,39 @@
+// *************************************
+//
+//   Modal
+//
+// *************************************
+
+.modal
+  background-color: $c-modal-background
+
+  h4
+    color: $c-modal-heading-color
+
+  p
+    color: $c-modal-text-color
+
+// -------------------------------------
+//   Scaffolding
+// -------------------------------------
+
+// -------- Footer -------- //
+
+.modal-footer
+  position: relative
+  text-align: right
+
+// -------- Button -------- //
+
+.modal-button
+  @extend .btn-flat
+  i
+    @extend .right
+
+// Modifier
+
+.modal-button--yes
+  @extend .waves-green
+
+.modal-button--no
+  @extend .waves-red

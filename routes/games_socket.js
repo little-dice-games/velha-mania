@@ -28,11 +28,16 @@ GamesSocket = function(app, users) {
 
         var opponent = _.findWhere(users, { email: req.data.opponent.email });
         var user = _.findWhere(users, { id: req.socket.id });
-        user.isPlaying = false;
+
+        if (user)
+            user.isPlaying = false;
 
         req.io.leave(roomId);
 
-        app.io.sockets.socket(opponent.id).emit('game/invitation/canceled');
+        _.map([opponent, user], function(socket) {
+            app.io.sockets.socket(socket.id).emit('game/invitation/canceled');
+        });
+
         req.io.broadcast('users', { data: users });
     });
 
