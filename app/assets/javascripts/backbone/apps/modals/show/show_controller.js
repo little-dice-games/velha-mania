@@ -7,7 +7,15 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
             _this.model = new Backbone.Model(options);
 
             _this.listenTo(_this.layout, 'show', function() {
-                _this.modalViewRegion();
+                _this.contentViewRegion();
+
+                if (_this.options.type === 'confirmation') {
+                    _this.buttonsViewRegion();
+                }
+
+                if (_this.options.type === 'information:load') {
+                    _this.informationLoadViewRegion();
+                }
             });
 
             App.modalRegion.show(_this.layout);
@@ -17,30 +25,46 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
             return new Show.Layout();
         },
 
-        modalViewRegion: function() {
-            var modalView = this.getModalView();
+        contentViewRegion: function() {
+            this.layout.modalContentRegion.show(this.getContentView());
+        },
 
-            this.listenTo(modalView, 'button:yes:clicked', function(args) {
-                options = _.extend(this.options, { answered: true });
-                App.execute('when:modal:answered', options);
+        buttonsViewRegion: function() {
+            var buttonsView = this.getButtonsView();
+
+            this.listenTo(buttonsView, 'button:yes:clicked', function(args) {
+                _.extend(this.options, { answered: true });
+                App.execute('when:modal:answered', this.options);
             });
 
-            this.listenTo(modalView, 'button:no:clicked', function(args) {
-                options = _.extend(this.options, { answered: false });
-                App.execute('when:modal:answered', options);
+            this.listenTo(buttonsView, 'button:no:clicked', function(args) {
+                _.extend(this.options, { answered: false });
+                App.execute('when:modal:answered', this.options);
             });
 
-            this.listenTo(modalView, 'button:yes:clicked button:no:clicked', function(args) {
+            this.listenTo(buttonsView, 'button:yes:clicked button:no:clicked', function(args) {
                 this.layout.destroy();
             });
 
-            this.layout.modalRegion.show(modalView);
+            this.layout.modalFooterRegion.show(buttonsView);
         },
 
-        getModalView: function() {
-            return new Show.ModalView({
+        informationLoadViewRegion: function() {
+            this.layout.modalFooterRegion.show(this.getInformationLoadView());
+        },
+
+        getContentView: function() {
+            return new Show.ContentView({
                 model: this.model
             })
+        },
+
+        getButtonsView: function() {
+            return new Show.ButtonsView()
+        },
+
+        getInformationLoadView: function() {
+            return new Show.LoadView()
         }
     });
 });

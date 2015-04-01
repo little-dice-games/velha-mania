@@ -16,7 +16,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
     socket.on('game/invitation', function(response) {
         var user = App.request('user:by:email:entity', response.data.user.email);
-        App.vent.trigger('show:modal', {
+        App.vent.trigger('show:confirmation:modal', {
             message: user.get('username') + ' te convidou para jogar. Aceita o convite?',
             roomId: response.data.roomId
         })
@@ -36,9 +36,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
     socket.on('game/invitation/rejected', function(response) {
         socket.emit('game/invitation/rejected', response);
+        App.vent.trigger('remove:modal');
     });
 
     socket.on('game/start', function() {
+        App.vent.trigger('remove:modal');
         App.vent.trigger('game:start');
     });
 });

@@ -19,7 +19,11 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         usersViewRegion: function() {
             var usersView = this.getUsersView();
 
-            this.listenTo(usersView, 'childview:user:clicked', function(child, b, c) {
+            this.listenTo(usersView, 'childview:user:clicked', function(child, args) {
+                App.vent.trigger('show:information:modal:load', {
+                    message: 'Aguarde seu parceiro responder seu convite!'
+                })
+
                 App.request('invite:game:entity', child.model);
             });
 

@@ -30,6 +30,12 @@
 .user-item
   width: 100%
 
+.user-item + .user-item:before
+  @extend .divider
+  content: ''
+  display: block
+  width: 100%
+
 // -------- Avatar -------- //
 
 .user-avatar

@@ -63,7 +63,6 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
         byEmail: function(email) {
             var user = this.where({ email: email });
-            console.log(email, user);
             return _.first(user);
         },
 

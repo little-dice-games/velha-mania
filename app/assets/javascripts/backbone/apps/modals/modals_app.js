@@ -11,9 +11,15 @@ this.VelhaMania.module('ModalsApp', function(ModalsApp, App, Backbone, Marionett
         }
     };
 
-    App.vent.on('show:modal', function(options) {
+    App.vent.on('show:confirmation:modal', function(options) {
+        _.extend(options, { type: 'confirmation' });
         API.show(options)
-    })
+    });
+
+    App.vent.on('show:information:modal:load', function(options) {
+        _.extend(options, { type: 'information:load' });
+        API.show(options)
+    });
 
     App.vent.on('remove:modal', function() {
         API.remove()
