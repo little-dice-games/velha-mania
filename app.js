@@ -12,6 +12,10 @@ var app = express();
 var ConnectMincer = require('connect-mincer');
 var Mincer = require('mincer');
 var env = process.env.NODE_ENV;
+var livereload = require('express-livereload');
+
+// livereload
+livereload(app, { watchDir: __dirname + '/app/assets/' })
 
 // Non cached when production
 require('./middlewares/mincer/environment')(Mincer, env);
