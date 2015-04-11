@@ -39,14 +39,6 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         childView: List.UserView,
         emptyView: List.EmptyView,
         className: 'user-list',
-        tagName: 'ul',
-
-        addChild: function(child, ChildView, index){
-            if (!child.itsMe()) {
-                List.UsersView.__super__.addChild.call(this, child, ChildView, index);
-            } else {
-                this.checkEmpty();
-            }
-        }
+        tagName: 'ul'
     });
 });

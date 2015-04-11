@@ -36,6 +36,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         }
     })
 
+    Entities.UsersAvailable = Backbone.Collection;
+
     Entities.Users = Backbone.Collection.extend({
         model: Entities.User,
         localStorage: new Backbone.LocalStorage('velha-mania-user'),
@@ -102,10 +104,14 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             return this.getCurrentUser();
         },
 
-        isEmpty: function() {
-            return this.where({ isPlaying: false }).length == 1 &&
-            this.first() &&
-            this.first().itsMe()
+        filter: function(model) {
+            console.log(model)
+            return model.itsMe === false;
+        },
+
+        usersAvailable: function() {
+            var users = this.where({ isPlaying: false, itsMe: false });
+            return new Entities.UsersAvailable(users);
         }
     });
 
@@ -116,6 +122,10 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             }
 
             return users;
+        },
+
+        getUsersList: function() {
+            return this.getUsers();
         },
 
         getCurrentUser: function() {
@@ -155,8 +165,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         return API.getCurrentUser();
     });
 
-    App.reqres.setHandler('users:entity', function() {
-        return API.getUsers();
+    App.reqres.setHandler('users:list:entity', function() {
+        return API.getUsersList()
     });
 
     App.reqres.setHandler('new:user:entity', function(email) {
