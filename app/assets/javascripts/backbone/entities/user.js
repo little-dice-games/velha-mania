@@ -104,14 +104,9 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             return this.getCurrentUser();
         },
 
-        filter: function(model) {
-            console.log(model)
-            return model.itsMe === false;
-        },
-
-        usersAvailable: function() {
-            var users = this.where({ isPlaying: false, itsMe: false });
-            return new Entities.UsersAvailable(users);
+        isEmpty: function() {
+            return this.where({ isPlaying: false }).length === 1
+                && !_.isEmpty(this.getCurrentUser());
         }
     });
 
