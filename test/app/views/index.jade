@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title= title
+    script(src='/socket.io/socket.io.js')
+    != js('application_tests.js')
+
+  body
+    div(id='mocha')
+    script.
+      $(document).ready(function() {
+        if (window.mochaPhantomJS) {
+          console.log('==================')
+          mochaPhantomJS.run()
+        } else {
+          mocha.run();
+        }
+      })
