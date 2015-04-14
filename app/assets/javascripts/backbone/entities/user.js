@@ -103,9 +103,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         isEmpty: function() {
-            return this.where({ isPlaying: false }).length == 1 &&
-            this.first() &&
-            this.first().itsMe()
+            return this.where({ isPlaying: false }).length === 1
+                && !_.isEmpty(this.getCurrentUser());
         }
     });
 
@@ -155,7 +154,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         return API.getCurrentUser();
     });
 
-    App.reqres.setHandler('users:entity', function() {
+    App.reqres.setHandler('user:entities', function() {
         return API.getUsers();
     });
 

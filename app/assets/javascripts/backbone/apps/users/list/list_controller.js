@@ -3,7 +3,7 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         initialize: function() {
             var _this = this;
             _this.layout = _this.getLayout();
-            _this.users = App.request('users:entity');
+            _this.users = App.request('user:entities');
 
             _this.listenTo(_this.layout, 'show', function() {
                 _this.usersViewRegion();
