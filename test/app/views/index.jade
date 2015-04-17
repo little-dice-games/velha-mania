@@ -1,18 +1,2 @@
-doctype html
-html
-  head
-    title= title
-    script(src='/socket.io/socket.io.js')
-    != css('application.css')
-
-  body
-    div(id='mocha')
-
-    .hidden
-      nav
-        .nav-region
-
-      main.main-region
-      .modal-region
-
-    != js('application_tests.js')
+h1 Ambiente de teste #{ title }
+a(href='/test/') Ver os testes

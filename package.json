@@ -16,7 +16,7 @@
   "private": true,
   "scripts": {
     "start": "./bin/www",
-    "test": "mocha-phantomjs -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false http://localhost:3001"
+    "test": "mocha-phantomjs -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false http://localhost:3000/test/"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
