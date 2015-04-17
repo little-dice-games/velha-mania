@@ -6,7 +6,8 @@ var config = {
         'app/assets/font',
         'vendor/assets/javascripts/bower_components'
     ],
-    viewsPath: 'views'
+    viewsPath: 'views',
+    watchDir: '/app/assets/'
 }
 
 module.exports = config;

@@ -103,8 +103,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         isEmpty: function() {
-            return this.where({ isPlaying: false }).length === 1
-                && !_.isEmpty(this.getCurrentUser());
+            return this.where({ isPlaying: false }).length <= 1
+                && _.isEmpty(this.getCurrentUser());
         }
     });
 

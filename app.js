@@ -16,7 +16,7 @@ var livereload = require('express-livereload');
 var config = require('./config/' + env)
 
 // livereload
-livereload(app, { watchDir: __dirname + '/app/assets/' })
+livereload(app, { watchDir: __dirname + config.watchDir });
 
 // Non cached when production
 require('./middlewares/mincer/environment')(Mincer, env);

@@ -1,6 +1,6 @@
-//= require phantomjs-polyfill/bind-polyfill.js
-//= require mocha/mocha.js
-//= require chai/chai.js
+//= require phantomjs-polyfill/bind-polyfill
+//= require mocha/mocha
+//= require chai/chai
 //= require application
 //= require config
 

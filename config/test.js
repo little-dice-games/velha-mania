@@ -7,7 +7,8 @@ var config = {
         'test/integrations',
         'test/app/assets/stylesheets'
     ],
-    viewsPath: 'test/app/views'
+    viewsPath: 'test/app/views',
+    watchDir: '/foo'
 }
 
 module.exports = config;
