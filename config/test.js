@@ -4,6 +4,7 @@ var config = {
         'app/assets/javascripts',
         'node_modules',
         'test/app/assets/javascripts',
+        'test/integrations',
         'test/app/assets/stylesheets'
     ],
     viewsPath: 'test/app/views'
