@@ -1,10 +1,8 @@
 //= require phantomjs-polyfill/bind-polyfill
 //= require mocha/mocha
 //= require chai/chai
-//= require sinon/lib/sinon
-//= require sinon_extend
-//= require sinon/lib/sinon/spy
+//= require setup/sinon
 //= require application
-//= require config
 
+//= require setup/mocha
 //= require integration_helper

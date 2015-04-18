@@ -1,9 +1,8 @@
 // --- Entities ---
 
-//= require entities/users_test
-//= require entities/user_test
+//= require_tree ./entities
 
-// --- Auto require ---
+// --- Self require ---
 
 //= require_self
 
