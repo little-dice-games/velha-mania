@@ -21,10 +21,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         logout: function() {
             socket.emit('users/delete', { email: this.get('email') });
             this.destroy();
+            return this;
         },
 
         itsMe: function() {
-            return this.get('itsMe');
+            return this && this.get('itsMe');
         },
 
         hasLogged: function() {
@@ -147,29 +148,25 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         }
     };
 
-    App.reqres.setHandler('user:by:email:entity', function(email) {
-        return API.getUserByEmail(email);
+    App.reqres.setHandler('user:entities', function() {
+        return API.getUsers();
     });
 
     App.reqres.setHandler('user:entity', function() {
         return API.getCurrentUser();
     });
 
-    App.reqres.setHandler('user:entities', function() {
-        return API.getUsers();
-    });
-
     App.reqres.setHandler('new:user:entity', function(email) {
         return API.newUser(email);
+    });
+
+    App.reqres.setHandler('user:by:email:entity', function(email) {
+        return API.getUserByEmail(email);
     });
 
     App.reqres.setHandler('logout:user:entity', function() {
         return API.logout();
     });
-
-    App.reqres.setHandler('opponents:entity', function() {
-        return API.opponents();
-    })
 
     socket.on('users', function(response) {
         API.addUsers(response.data);

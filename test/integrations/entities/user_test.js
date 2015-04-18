@@ -1,57 +1,63 @@
 'use strict';
 
 describe('User::Entities', function () {
-    var user = void 0,
-        email = 'john@doe.com';
-
     before(function() {
-        user = new VelhaMania.Entities.User({
-            email: email,
+        this.user = new VelhaMania.Entities.User({
+            email: 'john@doe.com',
             itsMe: true
         });
     })
 
     it('should get username', function () {
-        assert.equal(user.get('username'), 'john');
+        assert.equal(this.user.get('username'), 'john');
     })
 
     it('should get avatar', function () {
-        assert.match(user.get('avatar'), /www\.gravatar\.com/);
+        assert.match(this.user.get('avatar'), /www\.gravatar\.com/);
     })
 
     it('should get value of attribute itsMe', function () {
-        assert.isTrue(user.itsMe())
+        assert.isTrue(this.user.itsMe())
     })
 
     it('should verify if has logged', function () {
-        assert.isTrue(user.hasLogged())
+        assert.isTrue(this.user.hasLogged())
 
-        user.set({
+        this.user.set({
             itsMe: false
         })
 
-        assert.isFalse(user.hasLogged())
-        expect(user.hasLogged()).to.be.a('boolean')
+        assert.isFalse(this.user.hasLogged())
+        expect(this.user.hasLogged()).to.be.a('boolean')
     })
 
     it('should verify if is playing', function () {
-        assert.equal(user.isPlaying(), false);
+        assert.equal(this.user.isPlaying(), false);
 
-        user.set({
+        this.user.set({
             isPlaying: true
         })
 
-        assert.equal(user.isPlaying(), true);
-        expect(user.isPlaying()).to.be.a('boolean')
+        assert.equal(this.user.isPlaying(), true);
+        expect(this.user.isPlaying()).to.be.a('boolean')
     })
 
     it('should be have itsMe and isPlaying on default attributes', function() {
-        assert.deepProperty(user.defaults, 'itsMe');
-        assert.deepProperty(user.defaults, 'isPlaying');
+        assert.deepProperty(this.user.defaults, 'itsMe');
+        assert.deepProperty(this.user.defaults, 'isPlaying');
     })
 
     it('should be a false to itsMe and isPlaying property on default attributes', function() {
-        assert.propertyVal(user.defaults, 'itsMe', false);
-        assert.propertyVal(user.defaults, 'isPlaying', false);
+        assert.propertyVal(this.user.defaults, 'itsMe', false);
+        assert.propertyVal(this.user.defaults, 'isPlaying', false);
+    })
+
+    it('should user logout', function () {
+        var spy = sinon.spy();
+        this.user.on('destroy', spy)
+        this.user.logout()
+
+        sinon.assert.calledOnce(spy)
+        assert.isTrue(spy.called)
     })
 })
