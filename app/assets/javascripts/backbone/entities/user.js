@@ -23,16 +23,16 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             this.destroy();
         },
 
+        itsMe: function() {
+            return this.get('itsMe');
+        },
+
         hasLogged: function() {
-            return !_.isEmpty(this);
+            return this.itsMe();
         },
 
         isPlaying: function() {
             return this.get('isPlaying');
-        },
-
-        itsMe: function() {
-            return this.get('itsMe');
         }
     })
 
@@ -103,8 +103,9 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         isEmpty: function() {
-            return this.where({ isPlaying: false }).length <= 1
-                && _.isEmpty(this.getCurrentUser());
+            return _.isEmpty(this.models)
+                || this.where({ isPlaying: false }).length <= 1
+                && !_.isEmpty(this.getCurrentUser());
         }
     });
 
