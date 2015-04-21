@@ -6,16 +6,17 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var home = require('./routes/index');
-var users = require('./routes/users');
+var test = require('./routes/test');
 
 var app = express();
 var ConnectMincer = require('connect-mincer');
 var Mincer = require('mincer');
-var env = process.env.NODE_ENV;
+var env = process.env.NODE_ENV || 'development';
 var livereload = require('express-livereload');
+var config = require('./config/' + env)
 
 // livereload
-livereload(app, { watchDir: __dirname + '/app/assets/' })
+livereload(app, { watchDir: __dirname + config.watchDir });
 
 // Non cached when production
 require('./middlewares/mincer/environment')(Mincer, env);
@@ -27,14 +28,7 @@ var mincer = new ConnectMincer({
   production: env === 'production',
   mountPoint: 'assets',
   manifestFile: __dirname + '/public/assets/manifest.json',
-  paths: [
-    'app/assets/images',
-    'app/assets/stylesheets',
-    'app/assets/javascripts',
-    'app/assets/font',
-    'vendor/assets/javascripts/bower_components'
-  ],
-
+  paths: config.assetsPath,
   precompile: env !== 'test'
 });
 
@@ -47,7 +41,7 @@ if (env === 'production') {
 }
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, config.viewsPath));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -58,7 +52,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', home);
-app.use('/users/', users);
+app.use('/users/', home);
+app.use('/test/', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -21,18 +21,19 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         logout: function() {
             socket.emit('users/delete', { email: this.get('email') });
             this.destroy();
+            return this;
+        },
+
+        itsMe: function() {
+            return this && this.get('itsMe');
         },
 
         hasLogged: function() {
-            return !_.isEmpty(this);
+            return this.itsMe();
         },
 
         isPlaying: function() {
             return this.get('isPlaying');
-        },
-
-        itsMe: function() {
-            return this.get('itsMe');
         }
     })
 
@@ -103,7 +104,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         isEmpty: function() {
-            return this.where({ isPlaying: false }).length === 1
+            return _.isEmpty(this.models)
+                || this.where({ isPlaying: false }).length <= 1
                 && !_.isEmpty(this.getCurrentUser());
         }
     });
@@ -146,29 +148,25 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         }
     };
 
-    App.reqres.setHandler('user:by:email:entity', function(email) {
-        return API.getUserByEmail(email);
+    App.reqres.setHandler('user:entities', function() {
+        return API.getUsers();
     });
 
     App.reqres.setHandler('user:entity', function() {
         return API.getCurrentUser();
     });
 
-    App.reqres.setHandler('user:entities', function() {
-        return API.getUsers();
-    });
-
     App.reqres.setHandler('new:user:entity', function(email) {
         return API.newUser(email);
+    });
+
+    App.reqres.setHandler('user:by:email:entity', function(email) {
+        return API.getUserByEmail(email);
     });
 
     App.reqres.setHandler('logout:user:entity', function() {
         return API.logout();
     });
-
-    App.reqres.setHandler('opponents:entity', function() {
-        return API.opponents();
-    })
 
     socket.on('users', function(response) {
         API.addUsers(response.data);

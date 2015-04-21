@@ -15,7 +15,8 @@
   ],
   "private": true,
   "scripts": {
-    "start": "./bin/www"
+    "start": "./bin/www",
+    "test": "mocha-phantomjs -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false http://localhost:3000/test/"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -33,5 +34,12 @@
     "underscore": "^1.8.2",
     "wrench": "^1.5.8"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "mocha": "^2.2.4",
+    "mocha-phantomjs": "^3.5.3",
+    "phantomjs": "^1.9.16",
+    "phantomjs-polyfill": "0.0.1",
+    "sinon": "^1.14.1"
+  }
 }
