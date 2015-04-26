@@ -5,7 +5,9 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     Entities.User = Backbone.Model.extend({
         defaults: {
             itsMe: false,
-            isPlaying: false
+            isPlaying: false,
+            turn: false,
+            shape: null
         },
 
         mutators: {
@@ -47,7 +49,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
         addOrUpdateUser: function(user) {
             var userOnCollection = this.findWhere({ email: user.email });
-            attributes = _.pick(user, 'email', 'isPlaying')
+            attributes = _.pick(user, 'email', 'isPlaying', 'shape', 'turn');
 
             if (_.isEmpty(userOnCollection)) {
                 this.add([attributes])

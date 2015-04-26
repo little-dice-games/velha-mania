@@ -41,4 +41,16 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
         template: 'modals/show/templates/load',
         className: 'modal-footer'
     });
+
+    Show.CloseButtonView = Marionette.ItemView.extend({
+        template: 'modals/show/templates/close',
+        className: 'modal-footer',
+        ui: {
+            'buttonClose': '.modal-button--close',
+        },
+
+        triggers: {
+            'click @ui.buttonClose': 'button:close:clicked'
+        }
+    });
 });

@@ -35,6 +35,8 @@
   "devDependencies": {
     "sinon": "~1.14.1",
     "chai": "~2.2.0",
-    "mocha": "~2.2.4"
+    "mocha": "~2.2.4",
+    "jade": "~1.9.2",
+    "easeljs": "git@github.com:CreateJS/EaselJS.git#~0.7.1"
   }
 }

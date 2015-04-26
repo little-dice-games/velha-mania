@@ -11,6 +11,8 @@ GamesSocket = function(app, users) {
         var opponent = _.findWhere(users, { email: opponent.email });
         var user = _.findWhere(users, { id: req.socket.id });
         user.isPlaying = true;
+        user.shape = 'x';
+        user.turn = true;
 
         app.io.sockets.socket(opponent.id).emit('game/invitation', { data: { user: user, roomId: roomId }})
 
@@ -45,11 +47,14 @@ GamesSocket = function(app, users) {
         if (timer) { clearTimeout(timer) };
         var room = req.data.roomId;
 
-        _.findWhere(users, { id: req.socket.id }).isPlaying = true;
+        var user = _.findWhere(users, { id: req.socket.id });
+        user.isPlaying = true;
+        user.shape = 'o';
+        user.turn = false;
 
         req.io.join(room);
-        app.io.room(room).broadcast('game/start');
-        req.io.broadcast('users', { data: users });
+        app.io.broadcast('users', { data: users });
+        app.io.room(room).broadcast('game/start', { roomId: room });
     });
 
     app.io.route('game/invitation/rejected', function(req) {
@@ -62,6 +67,41 @@ GamesSocket = function(app, users) {
 
         _.findWhere(users, { id: req.socket.id }).isPlaying = false;
         req.io.broadcast('users', { data: users });
+    });
+
+    app.io.route('game/play', function(req) {
+        var room = req.data.roomId;
+
+        var user = _.findWhere(users, { id: req.socket.id });
+        user.turn = false;
+
+        var opponent = _.chain(app.io.sockets.clients(room))
+            .map(function(client) {
+                return _.findWhere(users, { id: client.id });
+            })
+            .reject(function(client) {
+                return client.id === user.id;
+            })
+            .first()
+            .value();
+        opponent.turn = true;
+
+        app.io.broadcast('users', { data: users });
+        req.io.broadcast('game/play', req.data);
+    });
+
+    app.io.route('game/end', function(req) {
+        var room = req.data.roomId;
+        req.io.broadcast('game/end', req.data);
+
+        _.each(app.io.sockets.clients(room), function(client) {
+            var user = _.findWhere(users, { id: client.id });
+            user.turn = false;
+            user.shape = null;
+            user.isPlaying = false;
+        });
+
+        app.io.broadcast('users', { data: users });
     });
 };
 
