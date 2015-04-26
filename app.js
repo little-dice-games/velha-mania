@@ -53,6 +53,7 @@ app.use(cookieParser());
 
 app.use('/', home);
 app.use('/users/', home);
+app.use('/play/', home);
 app.use('/test/', test);
 
 // catch 404 and forward to error handler

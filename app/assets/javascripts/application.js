@@ -11,6 +11,7 @@
 //= require js-md5/js/md5
 //= require jade/runtime
 //= require materialize/dist/js/materialize
+//= require easeljs/lib/easeljs-0.7.1.min.js
 
 //= require_tree ./config
 

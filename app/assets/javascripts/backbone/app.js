@@ -10,6 +10,7 @@ this.VelhaMania = (function(Backbone, Marionette) {
         App.module('Utilities').start();
         App.module('HomeApp').start();
         App.module('UsersApp').start();
+        App.module('BoardApp').start();
     });
 
     App.reqres.setHandler('concern', function(concern) {

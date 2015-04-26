@@ -16,6 +16,10 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
                 if (_this.options.type === 'information:load') {
                     _this.informationLoadViewRegion();
                 }
+
+                if (_this.options.type === 'information') {
+                    _this.informationViewRegion();
+                }
             });
 
             App.modalRegion.show(_this.layout);
@@ -53,6 +57,16 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
             this.layout.modalFooterRegion.show(this.getInformationLoadView());
         },
 
+        informationViewRegion: function() {
+            var informationView = this.getInformationView();
+
+            this.listenTo(informationView, 'button:close:clicked', function(args) {
+                this.destroy();
+            }.bind(this));
+
+            this.layout.modalFooterRegion.show(informationView);
+        },
+
         getContentView: function() {
             return new Show.ContentView({
                 model: this.model
@@ -65,6 +79,10 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
 
         getInformationLoadView: function() {
             return new Show.LoadView()
+        },
+
+        getInformationView: function() {
+            return new Show.CloseButtonView();
         }
     });
 });

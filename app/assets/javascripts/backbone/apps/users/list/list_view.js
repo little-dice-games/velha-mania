@@ -40,6 +40,9 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
         emptyView: List.EmptyView,
         className: 'user-list',
         tagName: 'ul',
+        collectionEvents: {
+            'change': 'render'
+        },
 
         isEmpty: function() {
           return this.collection.isEmpty()
