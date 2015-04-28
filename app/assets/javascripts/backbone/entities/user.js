@@ -7,7 +7,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             itsMe: false,
             isPlaying: false,
             turn: false,
-            shape: null
+            shape: _.noop
         },
 
         mutators: {

@@ -1,10 +1,10 @@
 this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
     var API;
-    var board = void 0;
+    var board = _.noop;
 
     Entities.Position = Backbone.Model.extend({
         defaults: {
-            ownerPosition: _.noop
+            userId: _.noop
         },
 
         parse: function(response, options) {
@@ -106,37 +106,16 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             return board;
         },
 
-        boardInit: function(options) {
-            return API.getBoard(options);
-        },
-
         resetBoard: function() {
-            board = void 0;
-        },
-
-        setOptions: function(options) {
-            board
-                .findWhere({ name: options.position })
-                .set({ ownerPosition: options.ownerPosition });
-
-            window.board = board;
-            return board;
+            board = _.noop;
         }
     };
 
     App.reqres.setHandler('board:entities', function(options) {
-        return API.boardInit(options);
+        return API.getBoard(options);
     });
 
     App.vent.on('reset:board:entities', function(options) {
         return API.resetBoard();
-    });
-
-    App.reqres.setHandler('get:positions:board:entities', function() {
-        return API.getBoard();
-    });
-
-    App.reqres.setHandler('set:position:board:entities', function(options) {
-        return API.setOptions(options);
     });
 });

@@ -1,26 +1,26 @@
 this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
     var API;
 
-    Entities.Boot = Backbone.Model.extend({
+    Entities.Bot = Backbone.Model.extend({
         played: function(options) {
-            var board = App.request('get:positions:board:entities');
+            var board = App.request('board:entities');
 
-            var opponentPositions = _.map(board.where({ ownerPosition: options.opponent }), function(position, i) {
+            var opponentPositions = _.map(board.where({ userId: options.opponent }), function(position, i) {
                 return position.get('name');
             });
 
-            var myPositions = _.map(board.where({ ownerPosition: options.me }), function(position, i) {
+            var myPositions = _.map(board.where({ userId: options.me }), function(position, i) {
                 return position.get('name');
             });
 
-            var freePositions = _.map(board.where({ ownerPosition: _.noop }), function(position, i) {
+            var freePositions = _.map(board.where({ userId: _.noop }), function(position, i) {
                 return position.get('name');
             });
 
-            var playeds = _.noop
+            var playeds = _.noop;
 
             _.each(board.bestMoves, function(positions, i) {
-                playedOpponent = _.difference(positions, opponentPositions)
+                playedOpponent = _.difference(positions, opponentPositions);
 
                 if (playedOpponent.length == 1) {
                     playeds = playedOpponent;
@@ -28,7 +28,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             });
 
             _.each(board.bestMoves, function(i, positions) {
-                playedMe = _.difference(positions, myPositions)
+                playedMe = _.difference(positions, myPositions);
 
                 if (!playeds && playedMe.length == 1) {
                     playeds = playedMe;
@@ -40,19 +40,18 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             });
 
             var betterPosition = playeds[_.random(0, playeds.length - 1)];
-            return board.findWhere({ name: betterPosition })
+            return board.findWhere({ name: betterPosition });
         }
     })
 
     API = {
-        // { opponent: opponentName, me: yourName }
         played: function(options) {
-            model = new Entities.Boot()
+            model = new Entities.Bot();
             return model.played(options);
         }
     };
 
-    App.reqres.setHandler('played:boot:entity', function(options) {
-        return API.played(options)
+    App.reqres.setHandler('played:bot:entity', function(options) {
+        return API.played(options);
     });
 });
