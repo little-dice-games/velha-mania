@@ -1,15 +1,16 @@
 this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
     var API;
+    var bot = _.noop;
 
     Entities.Bot = Backbone.Model.extend({
-        played: function(options) {
+        play: function(options) {
             var board = App.request('board:entities');
 
-            var opponentPositions = _.map(board.where({ userId: options.opponent }), function(position, i) {
+            var opponentPositions = _.map(board.where({ userId: this.get('opponent') }), function(position, i) {
                 return position.get('name');
             });
 
-            var myPositions = _.map(board.where({ userId: options.me }), function(position, i) {
+            var myPositions = _.map(board.where({ userId: this.get('me') }), function(position, i) {
                 return position.get('name');
             });
 
@@ -45,13 +46,24 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     })
 
     API = {
-        played: function(options) {
-            model = new Entities.Bot();
-            return model.played(options);
+        play: function(options) {
+            if (bot == null) {
+                bot = new Entities.Bot(options);
+            }
+
+            return bot.play();
+        },
+
+        resetBot: function() {
+            bot = _.noop;
         }
     };
 
-    App.reqres.setHandler('played:bot:entity', function(options) {
-        return API.played(options);
+    App.reqres.setHandler('bot:play', function(options) {
+        return API.play(options);
+    });
+
+    App.reqres.setHandler('reset:bot', function() {
+        return API.resetBot();
     });
 });
