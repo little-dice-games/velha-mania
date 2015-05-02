@@ -16,7 +16,7 @@
   "private": true,
   "scripts": {
     "start": "./bin/www",
-    "test": "mocha-phantomjs -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false http://localhost:3000/test/"
+    "test": "gulp test"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -35,11 +35,19 @@
     "wrench": "^1.5.8"
   },
   "devDependencies": {
-    "chai": "^2.2.0",
-    "mocha": "^2.2.4",
-    "mocha-phantomjs": "^3.5.3",
-    "phantomjs": "^1.9.16",
-    "phantomjs-polyfill": "0.0.1",
-    "sinon": "^1.14.1"
+    "benchmark": "^1.0.0",
+    "gulp": "^3.8.11",
+    "gulp-bench": "^1.1.0",
+    "gulp-jscs": "^1.6.0",
+    "gulp-jshint": "^1.10.0",
+    "gulp-karma": "0.0.4",
+    "jshint-stylish": "^1.0.1",
+    "karma": "^0.12.31",
+    "karma-browserify": "^4.0.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "karma-safari-launcher": "^0.1.1",
+    "mocha": "^2.2.0"
   }
 }

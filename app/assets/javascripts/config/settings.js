@@ -1,1 +1,1 @@
-window.Settings = {}
+window.Settings = {};

@@ -9,6 +9,6 @@ var config = {
     ],
     viewsPath: 'test/app/views',
     watchDir: '/foo'
-}
+};
 
 module.exports = config;

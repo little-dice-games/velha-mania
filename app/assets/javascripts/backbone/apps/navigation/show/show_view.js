@@ -1,4 +1,4 @@
-this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('NavigationApp.Show', function (Show, App, Backbone, Marionette) {
     Show.Layout = Marionette.LayoutView.extend({
         template: 'navigation/show/templates/layout',
         className: 'nav-wrapper',
@@ -21,8 +21,8 @@ this.VelhaMania.module('NavigationApp.Show', function(Show, App, Backbone, Mario
         triggers: {
             'click @ui.logoutButton' : 'logout:clicked'
         },
-        onShow: function() {
-            this.ui.buttonCollapse.sideNav()
+        onShow: function () {
+            this.ui.buttonCollapse.sideNav();
         }
     });
 

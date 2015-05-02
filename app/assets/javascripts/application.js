@@ -30,6 +30,7 @@
 
 //= require_self
 
-$(document).ready(function(){
-  VelhaMania.start()
-})
+$(document).ready(function () {
+    'use strict';
+    VelhaMania.start();
+});
