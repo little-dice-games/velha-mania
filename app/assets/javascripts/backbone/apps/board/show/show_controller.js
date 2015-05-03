@@ -23,7 +23,11 @@ this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette
         },
 
         turnRegion: function() {
-            this.turn = App.request('user:entities').findWhere({ turn: true });
+            if (this.bot && !this.currentUser.get('turn')) {
+                this.turn = this.bot;
+            } else {
+                this.turn = App.request('user:entities').findWhere({ turn: true });
+            }
             this.turnView = this.getTurnView();
             this.layout.turnRegion.show(this.turnView);
         },
@@ -57,14 +61,55 @@ this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette
                 userId: this.currentUser.get('id')
             });
 
-            App.vent.trigger('game:play', {
-                position: model,
-                play: this.currentUser.get('shape'),
-                user: this.currentUser.get('id'),
-                roomId: this.board.roomId
-            });
+            if (this.bot) {
+                this.bot.set({ turn: true });
+                this.botPlay();
+            } else {
+                App.vent.trigger('game:play', {
+                    position: model,
+                    play: this.currentUser.get('shape'),
+                    user: this.currentUser.get('id'),
+                    roomId: this.board.roomId
+                });
 
-            this.board.checkWin(this.currentUser.get('id'));
+                this.board.checkWin(this.currentUser.get('id'));
+            }
+        },
+
+        initBot: function(options) {
+            console.log('initBot ========== ', options);
+            this.bot = App.request('bot:entity', {
+                me: this.currentUser.get('id'),
+                opponent: options.id,
+                shape: options.shape,
+                turn: options.turn,
+                username: 'computador'
+            });
+            console.log('bot ================= ', this.bot.attributes);
+            this.botPlay();
+        },
+
+        botPlay: function() {
+            console.log('botPlay =========== ', this.bot.get('turn'));
+
+            if (this.bot.get('turn')) {
+                _.delay(function() {
+                    var position = this.bot.play();
+                    console.log('position =========== ', position);
+
+                    if (position) {
+                        position.set({
+                            play: this.bot.get('shape'),
+                            userId: this.bot.get('opponent')
+                        });
+
+                        this.bot.set({ turn: false });
+                        this.currentUser.set({ turn: true });
+                    }
+
+                    this.board.checkWin(this.bot.get('opponent'));
+                }.bind(this), 500);
+            }
         }
     });
 });

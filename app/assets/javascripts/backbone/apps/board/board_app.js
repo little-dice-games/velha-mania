@@ -19,6 +19,10 @@ this.VelhaMania.module('BoardApp', function(BoardApp, App, Backbone, Marionette,
 
         close: function() {
             if (this.controller) { this.controller.destroy(); }
+        },
+
+        initBot: function(options) {
+            if (this.controller) { this.controller.initBot(options); }
         }
     };
 
@@ -30,6 +34,10 @@ this.VelhaMania.module('BoardApp', function(BoardApp, App, Backbone, Marionette,
         App.vent.trigger('visit', 'play', { trigger: false });
         App.vent.trigger('reset:board:entities');
         API.show(options);
+
+        socket.on('users/delete', function(response) {
+            API.initBot(response.data);
+        });
     });
 
     App.vent.on('game:close', function() {

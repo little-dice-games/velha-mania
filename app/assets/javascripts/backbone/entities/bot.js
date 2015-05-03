@@ -1,9 +1,8 @@
 this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
     var API;
-    var bot = _.noop;
 
     Entities.Bot = Backbone.Model.extend({
-        play: function(options) {
+        play: function() {
             var board = App.request('board:entities');
 
             var opponentPositions = _.map(board.where({ userId: this.get('opponent') }), function(position, i) {
@@ -46,12 +45,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     })
 
     API = {
-        play: function(options) {
-            if (bot == null) {
-                bot = new Entities.Bot(options);
-            }
-
-            return bot.play();
+        getBot: function(options) {
+            return new Entities.Bot(options);
         },
 
         resetBot: function() {
@@ -59,8 +54,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         }
     };
 
-    App.reqres.setHandler('bot:play', function(options) {
-        return API.play(options);
+    App.reqres.setHandler('bot:entity', function(options) {
+        return API.getBot(options);
     });
 
     App.reqres.setHandler('reset:bot', function() {

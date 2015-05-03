@@ -49,7 +49,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
 
         addOrUpdateUser: function(user) {
             var userOnCollection = this.findWhere({ email: user.email });
-            attributes = _.pick(user, 'email', 'isPlaying', 'shape', 'turn');
+            attributes = _.clone(user);
+            console.log('addOrUpdateUser', attributes);
 
             if (_.isEmpty(userOnCollection)) {
                 this.add([attributes])
@@ -70,6 +71,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         removeUser: function(user) {
+            console.log('removeUser ================ ', user);
             this.findWhere({ email: user.email }).destroy()
         },
 
@@ -179,6 +181,6 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
     });
 
     socket.on('users/delete', function(response) {
-        API.removeUser(response.data);
+        _.delay(function() { API.removeUser(response.data); }, 500);
     });
 });
