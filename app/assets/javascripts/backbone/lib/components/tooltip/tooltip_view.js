@@ -1,12 +1,14 @@
-this.VelhaMania.module('Components.ToolTip', function(Show, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('Components.ToolTip', function (Show, App, Backbone, Marionette) {
     Show.TipView = Marionette.ItemView.extend({
         className: 'message',
         template: 'tooltip/templates/tip',
-        attributes: function() {
-            text: this.model.get('message')
+        attributes: function () {
+            return {
+                text: this.model.get('message')
+            };
         },
 
-        initialize: function() {
+        initialize: function () {
             this.render();
         }
     });

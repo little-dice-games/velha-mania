@@ -1,0 +1,16 @@
+{
+  "globals": {
+    "describe"        : true,
+    "before"          : true,
+    "it"              : true,
+    "assert"          : true,
+    "expect"          : true,
+    "sinon"           : true,
+    "VelhaMania"      : true,
+    "mocha"           : true,
+    "mochaPhantomJS"  : true,
+    "$"               : true,
+    "assert"          : true,
+    "chai"            : true
+  }
+}

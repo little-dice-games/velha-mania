@@ -1,4 +1,4 @@
-this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('ModalsApp.Show', function (Show, App, Backbone, Marionette) {
     Show.Layout = Marionette.LayoutView.extend({
         template: 'modals/show/templates/layout',
         className: 'modal',
@@ -7,13 +7,13 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
             modalFooterRegion: '.modal-footer-region'
         },
 
-        onShow: function() {
+        onShow: function () {
             this.$el.openModal({
                 dismissible: false
             });
         },
 
-        onDestroy: function() {
+        onDestroy: function () {
             this.$el.closeModal();
         }
     });
@@ -46,7 +46,7 @@ this.VelhaMania.module('ModalsApp.Show', function(Show, App, Backbone, Marionett
         template: 'modals/show/templates/close',
         className: 'modal-footer',
         ui: {
-            'buttonClose': '.modal-button--close',
+            'buttonClose': '.modal-button--close'
         },
 
         triggers: {

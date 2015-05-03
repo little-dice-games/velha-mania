@@ -1,0 +1,1 @@
+this.VelhaMania.module('Entities', function () {});
