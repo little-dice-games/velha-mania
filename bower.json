@@ -31,7 +31,8 @@
     "js-md5": "1.1.0",
     "materialize": "~0.95.3",
     "jade": "~1.9.2",
-    "easeljs": "https://github.com/CreateJS/EaselJS.git#~0.7.1"
+    "easeljs": "https://github.com/CreateJS/EaselJS.git#~0.7.1",
+    "preloadjs": "https://github.com/CreateJS/PreloadJS.git#~0.6.0"
   },
   "devDependencies": {
     "sinon": "~1.14.1",
