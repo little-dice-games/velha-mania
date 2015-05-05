@@ -41,8 +41,8 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
 
         onPlayChanged: function () {
             var url = this.model.get('play') === 'x' ?
-                'http://i.imgur.com/e4C5Cf0.png' :
-                'http://i.imgur.com/OXDM7YP.png',
+                CanvasUtils.getSpriteX() :
+                CanvasUtils.getSpriteO(),
 
                 data = {
                     images: [url],
@@ -80,6 +80,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
         },
 
         initialize: function () {
+            CanvasUtils.loadManifest();
             this.stage = new createjs.Stage('game-board');
             createjs.Ticker.addEventListener('tick', this.onTick.bind(this));
         },
