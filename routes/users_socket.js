@@ -1,6 +1,7 @@
 var UsersSocket = function (app, users) {
     var _ = require('underscore');
 
+    console.log(';;;;;;');
     app.io.route('users', function (req) {
         req.io.emit('users', {
             data: users
@@ -18,6 +19,8 @@ var UsersSocket = function (app, users) {
     });
 
     app.io.route('users/new', function (req) {
+        console.log('----- users/new -----');
+
         var user = {
             id: req.socket.id,
             isPlaying: false,

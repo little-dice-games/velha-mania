@@ -88,12 +88,14 @@ app.use(function (err, req, res) {
     });
 });
 
-app.listen(app.get('port'), function () {
+app.listen(app.get('port'), function (a) {
     var users = [];
 
-    require('./routes/root_socket')(app, users);
-    require('./routes/users_socket')(app, users);
-    require('./routes/games_socket')(app, users);
+    require(__dirname + '/routes/root_socket')(app, users);
+    require(__dirname + '/routes/users_socket')(app, users);
+    require(__dirname + '/routes/games_socket')(app, users);
 });
+
+app.http().io();
 
 module.exports = app;
