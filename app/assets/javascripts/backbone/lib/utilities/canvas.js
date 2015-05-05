@@ -4,18 +4,16 @@ window.CanvasUtils = (function () {
     CanvasUtils.ROWS = 3;
     CanvasUtils.COLUMNS = 3;
 
-    CanvasUtils.loadManifest = function() {
-        manifest = [
-            { src: 'sprite-x.png', id: 'x' },
-            { src: 'sprite-o.png', id: 'o' }
-        ];
-
+    CanvasUtils.loadManifest = function () {
         this.loader = new createjs.LoadQueue(false);
         this.loader.addEventListener('complete', this.handleComplete.bind(this));
-        this.loader.loadManifest(manifest, true, '/assets/');
+        this.loader.loadManifest([
+            { src: 'sprite-x.png', id: 'x' },
+            { src: 'sprite-o.png', id: 'o' }
+        ], true, '/assets/');
     };
 
-    CanvasUtils.handleComplete = function() {
+    CanvasUtils.handleComplete = function () {
         $(this).trigger('complete');
     };
 
@@ -35,11 +33,11 @@ window.CanvasUtils = (function () {
         return this.width() / CanvasUtils.COLUMNS;
     };
 
-    CanvasUtils.getSpriteX = function() {
+    CanvasUtils.getSpriteX = function () {
         return this.loader.getResult('x');
     };
 
-    CanvasUtils.getSpriteO = function() {
+    CanvasUtils.getSpriteO = function () {
         return this.loader.getResult('o');
     };
 
