@@ -2,6 +2,7 @@ var UsersSocket = function (app, users) {
     var _ = require('underscore');
 
     console.log(';;;;;;');
+
     app.io.route('users', function (req) {
         req.io.emit('users', {
             data: users
