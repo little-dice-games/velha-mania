@@ -10,7 +10,33 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
 
     Show.TurnView = Marionette.ItemView.extend({
         template: 'board/show/templates/turn',
-        className: 'turn'
+        className: function () {
+            var className = 'turn';
+
+            if (this.model && this.model.get('itsMe')) {
+                className += ' is-my-turn';
+            }
+
+            return className;
+        },
+
+        templateHelpers: function (target) {
+            var message = function message () {
+                var message;
+
+                if (target.itsMe) {
+                    message = 'Sua Vez';
+                } else {
+                    message = 'Vez do ' + target.username;
+                }
+
+                return message
+            };
+
+            return {
+                message: message()
+            };
+        }
     });
 
     Show.PositionView = Marionette.ItemView.extend({
