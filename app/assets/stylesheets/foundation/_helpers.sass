@@ -58,6 +58,18 @@
   @media #{$media} and ($query: $val)
     @content
 
+// ----- Keyframes ----- //
+
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
 // -------------------------------------
 //   Extends
 // -------------------------------------
@@ -106,4 +118,16 @@
 //   Animations
 // -------------------------------------
 
-// ...
+// ----- Background animation ----- //
+
++keyframes(background-animation)
+  0%
+    background: #053554
+  25%
+    background: #1B4561
+  50%
+    background: #053554
+  75%
+    background: #1B4561
+  100%
+    background: #053554
