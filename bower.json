@@ -34,6 +34,9 @@
     "easeljs": "https://github.com/CreateJS/EaselJS.git#~0.7.1",
     "preloadjs": "https://github.com/CreateJS/PreloadJS.git#~0.6.0"
   },
+  "resolutions": {
+    "underscore": "1.6.0"
+  },
   "devDependencies": {
     "sinon": "~1.14.1",
     "chai": "~2.2.0"
