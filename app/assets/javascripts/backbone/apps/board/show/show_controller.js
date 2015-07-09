@@ -9,6 +9,13 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
                 this.boardRegion();
             }.bind(this));
 
+            this.listenTo(this.layout, 'canvas:sizes:setted', function() {
+                console.log('--------------');
+                // this.boardRegion();
+
+                // this.boardRegion();
+            }.bind(this));
+
             var users = App.request('user:entities');
             this.currentUser = App.request('user:entity');
 
@@ -43,6 +50,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
                 App.vent.trigger('show:game:end:modal', args);
                 App.vent.trigger('game:end', args);
             });
+
 
             this.layout.boardRegion.show(this.boardView);
         },

@@ -8,7 +8,7 @@ this.VelhaMania.module('Utilities', function (Utilities, App, Backbone, Marionet
                 templateHelpers = this.templateHelpers.call(this, target);
             }
 
-            return _.extend(target, templateHelpers)
+            return _.extend(target, templateHelpers);
         },
 
         viewBase: function () {
