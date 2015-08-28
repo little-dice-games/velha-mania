@@ -15,14 +15,14 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
             var realSize;
 
             if (width <= height) {
-                var newWidth = (width * 80) / 100;
+                var newWidth = (width * 75) / 100;
 
                 realSize = {
                     width: newWidth,
                     height: newWidth
                 }
             } else {
-                var newHeight = (height * 80) / 100;
+                var newHeight = (height * 75) / 100;
 
                 realSize = {
                     width: newHeight,
