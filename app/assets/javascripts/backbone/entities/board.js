@@ -8,8 +8,6 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
         },
 
         positionsA: function (response) {
-            console.log(response, 'A');
-
             switch (response.name) {
                 case 'a1':
                     response.x = response.y = 0;

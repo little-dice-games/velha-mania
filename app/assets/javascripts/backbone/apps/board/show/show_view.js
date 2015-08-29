@@ -6,7 +6,8 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
 
         regions: {
             boardRegion: 'canvas#board-canvas',
-            turnRegion: '.turn-region'
+            turnRegion: '.turn-region',
+            playersRegion: '.players-region'
         },
 
         templateHelpers: function () {
@@ -124,17 +125,15 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
                 shape.scaleX = 0.5;
                 shape.scaleY = 0.5;
 
-                var positionSize = this.stage.canvas.width / 3;
-                var position;
+                var wrapperSize = this.stage.canvas.width / 3;
+                var padding = 0;
 
-                if (positionSize > 100) {
-                    position = (positionSize - 100) / 2
-                } else {
-                    position = 0
+                if (wrapperSize > 100) {
+                    padding = (wrapperSize - 100) / 2
                 }
 
-                shape.x = childView.model.get('x') + position;
-                shape.y = childView.model.get('y') + position;
+                shape.x = childView.model.get('x') + padding;
+                shape.y = childView.model.get('y') + padding;
                 this.stage.addChild(shape);
             }
         },

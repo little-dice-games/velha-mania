@@ -2,6 +2,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
     Show.Controller = App.Controllers.Application.extend({
         initialize: function (options) {
             this.options = options;
+
             this.layout = this.getLayout();
 
             this.listenTo(this.layout, 'show', function () {
@@ -11,6 +12,8 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
 
             var users = App.request('user:entities');
             this.currentUser = App.request('user:entity');
+
+            console.log(this.options);
 
             this.listenTo(users, 'change', function () {
                 this.turnRegion();
