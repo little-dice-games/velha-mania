@@ -30,8 +30,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
                 }
             }
 
-            console.log(realSize);
-
+            this.realSize = realSize;
             return realSize;
         }
     });
@@ -74,6 +73,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
 
         render: function () {
             this.shape = new createjs.Shape();
+
             this.shape
                 .graphics
                 .beginFill('#155F8E')
@@ -123,8 +123,18 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
             play: function (childView, shape) {
                 shape.scaleX = 0.5;
                 shape.scaleY = 0.5;
-                shape.x = childView.model.get('x');
-                shape.y = childView.model.get('y');
+
+                var positionSize = this.stage.canvas.width / 3;
+                var position;
+
+                if (positionSize > 100) {
+                    position = (positionSize - 100) / 2
+                } else {
+                    position = 0
+                }
+
+                shape.x = childView.model.get('x') + position;
+                shape.y = childView.model.get('y') + position;
                 this.stage.addChild(shape);
             }
         },

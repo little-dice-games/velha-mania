@@ -8,6 +8,8 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
         },
 
         positionsA: function (response) {
+            console.log(response, 'A');
+
             switch (response.name) {
                 case 'a1':
                     response.x = response.y = 0;
@@ -55,6 +57,13 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
                     response.y = response.height * 2;
                     break;
             }
+        },
+
+        getPosition: function(response) {
+            return {
+                height: ((response.options.height / 3) - response.height) / 2,
+                width: ((response.options.width / 3) - response.width) / 2
+            };
         },
 
         parse: function (response) {
@@ -135,7 +144,6 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
                 .findWhere({ name: options.position })
                 .set({ ownerPosition: options.ownerPosition });
 
-            window.board = board;
             return board;
         }
     };

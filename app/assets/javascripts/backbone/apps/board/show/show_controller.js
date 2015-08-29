@@ -6,14 +6,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
 
             this.listenTo(this.layout, 'show', function () {
                 this.turnRegion();
-                this.boardRegion();
-            }.bind(this));
-
-            this.listenTo(this.layout, 'canvas:sizes:setted', function() {
-                console.log('--------------');
-                // this.boardRegion();
-
-                // this.boardRegion();
+                this.boardRegion(this.layout.realSize);
             }.bind(this));
 
             var users = App.request('user:entities');
@@ -36,8 +29,8 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
             this.layout.turnRegion.show(this.turnView);
         },
 
-        boardRegion: function () {
-            this.board = App.request('board:entities', this.options);
+        boardRegion: function (realSize) {
+            this.board = App.request('board:entities', _.defaults(this.options, realSize));
             this.boardView = this.getBoardView();
 
             this.listenTo(this.boardView, 'childview:shape:clicked', function (child) {
