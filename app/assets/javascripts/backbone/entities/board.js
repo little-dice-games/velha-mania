@@ -57,7 +57,7 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
             }
         },
 
-        getPosition: function(response) {
+        getPosition: function (response) {
             return {
                 height: ((response.options.height / 3) - response.height) / 2,
                 width: ((response.options.width / 3) - response.width) / 2

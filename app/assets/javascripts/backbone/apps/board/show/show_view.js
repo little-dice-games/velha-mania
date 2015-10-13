@@ -11,24 +11,26 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
         },
 
         templateHelpers: function () {
-            var height = this.$window.height();
-            var width = this.$window.width();
-            var realSize;
+            var height = this.$window.height(),
+                width = this.$window.width(),
+                realSize,
+                newWidth,
+                newHeight;
 
             if (width <= height) {
-                var newWidth = (width * 75) / 100;
+                newWidth = (width * 75) / 100;
 
                 realSize = {
                     width: newWidth,
                     height: newWidth
-                }
+                };
             } else {
-                var newHeight = (height * 75) / 100;
+                newHeight = (height * 75) / 100;
 
                 realSize = {
                     width: newHeight,
                     height: newHeight
-                }
+                };
             }
 
             this.realSize = realSize;
@@ -125,11 +127,11 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
                 shape.scaleX = 0.5;
                 shape.scaleY = 0.5;
 
-                var wrapperSize = this.stage.canvas.width / 3;
-                var padding = 0;
+                var wrapperSize = this.stage.canvas.width / 3,
+                    padding = 0;
 
                 if (wrapperSize > 100) {
-                    padding = (wrapperSize - 100) / 2
+                    padding = (wrapperSize - 100) / 2;
                 }
 
                 shape.x = childView.model.get('x') + padding;
