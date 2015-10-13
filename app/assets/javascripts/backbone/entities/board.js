@@ -57,6 +57,13 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
             }
         },
 
+        getPosition: function(response) {
+            return {
+                height: ((response.options.height / 3) - response.height) / 2,
+                width: ((response.options.width / 3) - response.width) / 2
+            };
+        },
+
         parse: function (response) {
             response.width = CanvasUtils.squareWidth();
             response.height = CanvasUtils.squareHeight();
@@ -135,7 +142,6 @@ this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette
                 .findWhere({ name: options.position })
                 .set({ ownerPosition: options.ownerPosition });
 
-            window.board = board;
             return board;
         }
     };

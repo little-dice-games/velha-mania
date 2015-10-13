@@ -1,17 +1,45 @@
 this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionette) {
     Show.LayoutView = Marionette.LayoutView.extend({
+        $window: $(window),
         template: 'board/show/templates/layout',
         className: 'board',
+
         regions: {
-            boardRegion: '.board-region',
-            turnRegion: '.turn-region'
+            boardRegion: 'canvas#board-canvas',
+            turnRegion: '.turn-region',
+            playersRegion: '.players-region'
+        },
+
+        templateHelpers: function () {
+            var height = this.$window.height();
+            var width = this.$window.width();
+            var realSize;
+
+            if (width <= height) {
+                var newWidth = (width * 75) / 100;
+
+                realSize = {
+                    width: newWidth,
+                    height: newWidth
+                }
+            } else {
+                var newHeight = (height * 75) / 100;
+
+                realSize = {
+                    width: newHeight,
+                    height: newHeight
+                }
+            }
+
+            this.realSize = realSize;
+            return realSize;
         }
     });
 
     Show.TurnView = Marionette.ItemView.extend({
         template: 'board/show/templates/turn',
         className: function () {
-            var className = 'turn';
+            var className = 'board-turn';
 
             if (this.model && this.model.get('itsMe')) {
                 className += ' is-my-turn';
@@ -46,6 +74,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
 
         render: function () {
             this.shape = new createjs.Shape();
+
             this.shape
                 .graphics
                 .beginFill('#155F8E')
@@ -95,8 +124,16 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
             play: function (childView, shape) {
                 shape.scaleX = 0.5;
                 shape.scaleY = 0.5;
-                shape.x = childView.model.get('x');
-                shape.y = childView.model.get('y');
+
+                var wrapperSize = this.stage.canvas.width / 3;
+                var padding = 0;
+
+                if (wrapperSize > 100) {
+                    padding = (wrapperSize - 100) / 2
+                }
+
+                shape.x = childView.model.get('x') + padding;
+                shape.y = childView.model.get('y') + padding;
                 this.stage.addChild(shape);
             }
         },
@@ -107,7 +144,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
 
         initialize: function () {
             CanvasUtils.loadManifest();
-            this.stage = new createjs.Stage('game-board');
+            this.stage = new createjs.Stage('board-canvas');
             createjs.Ticker.addEventListener('tick', this.onTick.bind(this));
         },
 

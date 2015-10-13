@@ -66,6 +66,7 @@ var GamesSocket = function (app, users) {
         user.turn = false;
 
         req.io.join(room);
+
         app.io.broadcast('users', { data: users });
         app.io.room(room).broadcast('game/start', { roomId: room });
     });

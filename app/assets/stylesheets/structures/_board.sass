@@ -4,18 +4,20 @@
 //
 // *************************************
 
+.board
+  height: 100%
+
 // -------------------------------------
 //   Scaffolding
 // -------------------------------------
 
 // -------- Canvas -------- //
 
-.board canvas
-  @extend %centralize
+.board-canvas
 
 // -------- Turn -------- //
 
-.board .turn
+.board-turn
   background: $c-turn-background
   font-size: $b-fontSize-xl
   font-weight: 100
@@ -27,6 +29,12 @@
 
 // State
 
-.turn.is-my-turn
+.board-turn.is-my-turn
   animation: background-animation 2s infinite
   -webkit-animation: background-animation 2s infinite
+
+// -------- Wrapper -------- //
+
+.board-wrapper
+  padding: em(20px)
+  text-align: center
