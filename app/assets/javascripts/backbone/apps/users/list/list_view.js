@@ -1,4 +1,4 @@
-this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('UsersApp.List', function (List, App, Backbone, Marionette) {
     List.Layout = Marionette.LayoutView.extend({
         template: 'users/list/templates/layout',
         regions: {
@@ -18,11 +18,11 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
             'change:isPlaying' : 'visibleToggle'
         },
 
-        visibleToggle: function() {
+        visibleToggle: function () {
             if (this.model.isPlaying()) {
-                this.$el.hide()
+                this.$el.hide();
             } else {
-                this.$el.show()
+                this.$el.show();
             }
 
             this.trigger('user:view:toggled');
@@ -44,11 +44,11 @@ this.VelhaMania.module('UsersApp.List', function(List, App, Backbone, Marionette
             'change': 'render'
         },
 
-        isEmpty: function() {
-          return this.collection.isEmpty()
+        isEmpty: function () {
+            return this.collection.isEmpty();
         },
 
-        addChild: function(child, ChildView, index){
+        addChild: function (child, ChildView, index) {
             if (!child.itsMe()) {
                 List.UsersView.__super__.addChild.call(this, child, ChildView, index);
             }

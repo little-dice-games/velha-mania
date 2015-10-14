@@ -12,11 +12,13 @@
 //= require jade/runtime
 //= require materialize/dist/js/materialize
 //= require easeljs/lib/easeljs-0.7.1.min.js
+//= require preloadjs/lib/preloadjs-0.6.0.min.js
 
 //= require_tree ./config
 
 //= require backbone/app
 
+//= require_tree ./backbone/lib/views
 //= require_tree ./backbone/lib/utilities
 //= require_tree ./backbone/lib/controllers
 //= require_tree ./backbone/lib/components
@@ -30,6 +32,7 @@
 
 //= require_self
 
-$(document).ready(function(){
-  VelhaMania.start()
-})
+$(document).ready(function () {
+    'use strict';
+    VelhaMania.start();
+});

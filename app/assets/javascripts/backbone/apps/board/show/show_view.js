@@ -1,16 +1,72 @@
-this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionette) {
     Show.LayoutView = Marionette.LayoutView.extend({
+        $window: $(window),
         template: 'board/show/templates/layout',
         className: 'board',
+
         regions: {
-            boardRegion: '.board-region',
-            turnRegion: '.turn-region'
+            boardRegion: 'canvas#board-canvas',
+            turnRegion: '.turn-region',
+            playersRegion: '.players-region'
+        },
+
+        templateHelpers: function () {
+            var height = this.$window.height(),
+                width = this.$window.width(),
+                realSize,
+                newWidth,
+                newHeight;
+
+            if (width <= height) {
+                newWidth = (width * 75) / 100;
+
+                realSize = {
+                    width: newWidth,
+                    height: newWidth
+                };
+            } else {
+                newHeight = (height * 75) / 100;
+
+                realSize = {
+                    width: newHeight,
+                    height: newHeight
+                };
+            }
+
+            this.realSize = realSize;
+            return realSize;
         }
     });
 
     Show.TurnView = Marionette.ItemView.extend({
         template: 'board/show/templates/turn',
-        className: 'turn'
+        className: function () {
+            var className = 'board-turn';
+
+            if (this.model && this.model.get('itsMe')) {
+                className += ' is-my-turn';
+            }
+
+            return className;
+        },
+
+        templateHelpers: function (target) {
+            var message = function () {
+                var text;
+
+                if (target.itsMe) {
+                    text = 'Sua Vez';
+                } else {
+                    text = 'Vez do ' + target.username;
+                }
+
+                return text;
+            };
+
+            return {
+                message: message()
+            };
+        }
     });
 
     Show.PositionView = Marionette.ItemView.extend({
@@ -18,14 +74,20 @@ this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette
             'change:play': 'onPlayChanged'
         },
 
-        render: function() {
+        render: function () {
             this.shape = new createjs.Shape();
+
             this.shape
                 .graphics
                 .beginFill('#155F8E')
-                .drawRect(this.model.get('x'), this.model.get('y'), this.model.get('width'), this.model.get('height'));
+                .drawRect(
+                    this.model.get('x'),
+                    this.model.get('y'),
+                    this.model.get('width'),
+                    this.model.get('height')
+                );
 
-            this.shape.addEventListener('click', function (event) {
+            this.shape.addEventListener('click', function () {
                 if (this.model.get('play') !== undefined) {
                     return;
                 }
@@ -34,23 +96,25 @@ this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette
             }.bind(this));
         },
 
-        onPlayChanged: function() {
-            var url = this.model.get('play') === 'x' ? 'http://i.imgur.com/e4C5Cf0.png' : 'http://i.imgur.com/OXDM7YP.png';
+        onPlayChanged: function () {
+            var url = this.model.get('play') === 'x' ?
+                CanvasUtils.getSpriteX() :
+                CanvasUtils.getSpriteO(),
 
-            var data = {
-                images: [url],
-                frames: {
-                    width: 200,
-                    height: 200
+                data = {
+                    images: [url],
+                    frames: {
+                        width: 200,
+                        height: 200
+                    },
+                    animations: {
+                        end: 13,
+                        start: [0, 13, 'end', 1]
+                    }
                 },
-                animations: {
-                    end: 13,
-                    start: [0, 13, 'end', 1]
-                }
-            }
 
-            var sprite = new createjs.SpriteSheet(data);
-            var shape = new createjs.Sprite(sprite, 'start');
+                sprite = new createjs.SpriteSheet(data),
+                shape = new createjs.Sprite(sprite, 'start');
 
             this.triggerMethod('play', shape);
         }
@@ -59,47 +123,58 @@ this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette
     Show.BoardView = Marionette.CollectionView.extend({
         childView: Show.PositionView,
         childEvents: {
-          play: function(childView, shape) {
-            shape.scaleX = 0.5;
-            shape.scaleY = 0.5;
-            shape.x = childView.model.get('x');
-            shape.y = childView.model.get('y');
-            this.stage.addChild(shape);
-          }
+            play: function (childView, shape) {
+                shape.scaleX = 0.5;
+                shape.scaleY = 0.5;
+
+                var wrapperSize = this.stage.canvas.width / 3,
+                    padding = 0;
+
+                if (wrapperSize > 100) {
+                    padding = (wrapperSize - 100) / 2;
+                }
+
+                shape.x = childView.model.get('x') + padding;
+                shape.y = childView.model.get('y') + padding;
+                this.stage.addChild(shape);
+            }
         },
 
-        attachHtml: function(collectionView, childView, index) {
+        attachHtml: function (collectionView, childView) {
             this.stage.addChild(childView.shape);
         },
 
-        initialize: function() {
-            this.stage = new createjs.Stage('game-board');
+        initialize: function () {
+            CanvasUtils.loadManifest();
+            this.stage = new createjs.Stage('board-canvas');
             createjs.Ticker.addEventListener('tick', this.onTick.bind(this));
         },
 
-        onShow: function() {
+        onShow: function () {
             this.drawLines();
         },
 
-        onTick: function(event) {
+        onTick: function (event) {
             this.stage.update(event);
         },
 
-        drawLines: function() {
+        drawLines: function () {
             this.stage.addChild(this.drawVerticalLines());
             this.stage.addChild(this.drawHorizontalLines());
         },
 
-        drawVerticalLines: function() {
-            var canvasWidth = CanvasUtils.width();
-            var squareWidth = CanvasUtils.squareWidth();
+        drawVerticalLines: function () {
+            var canvasWidth = CanvasUtils.width(),
+                squareWidth = CanvasUtils.squareWidth(),
 
-            var verticalLines = new createjs.Shape();
+                verticalLines = new createjs.Shape(),
+                startX = squareWidth + 0.5,
+                x;
+
             verticalLines.graphics.setStrokeStyle(1);
             verticalLines.graphics.beginStroke('#000');
-            var startX = squareWidth + 0.5;
 
-            for (var x = startX; x < canvasWidth; x += squareWidth) {
+            for (x = startX; x < canvasWidth; x += squareWidth) {
                 verticalLines.graphics.moveTo(x, 0);
                 verticalLines.graphics.lineTo(x, canvasWidth);
             }
@@ -109,16 +184,18 @@ this.VelhaMania.module('BoardApp.Show', function(Show, App, Backbone, Marionette
             return verticalLines;
         },
 
-        drawHorizontalLines: function() {
-            var canvasHeight = CanvasUtils.height();
-            var squareHeight = CanvasUtils.squareHeight();
+        drawHorizontalLines: function () {
+            var canvasHeight = CanvasUtils.height(),
+                squareHeight = CanvasUtils.squareHeight(),
 
-            var horizontalLines = new createjs.Shape();
+                horizontalLines = new createjs.Shape(),
+                startY = squareHeight + 0.5,
+                y;
+
             horizontalLines.graphics.setStrokeStyle(1);
             horizontalLines.graphics.beginStroke('#000');
-            var startY = squareHeight + 0.5;
 
-            for (var y = startY; y < canvasHeight; y += squareHeight) {
+            for (y = startY; y < canvasHeight; y += squareHeight) {
                 horizontalLines.graphics.moveTo(0, y);
                 horizontalLines.graphics.lineTo(canvasHeight, y);
             }

@@ -7,10 +7,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             userId: _.noop
         },
 
-        parse: function(response, options) {
-            response.width = CanvasUtils.squareWidth();
-            response.height = CanvasUtils.squareHeight();
-
+        positionsA: function (response) {
             switch (response.name) {
                 case 'a1':
                     response.x = response.y = 0;
@@ -23,6 +20,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
                     response.x = response.width * 2;
                     response.y = 0;
                     break;
+            }
+        },
+
+        positionsB: function (response) {
+            switch (response.name) {
                 case 'b1':
                     response.x = 0;
                     response.y = response.height;
@@ -35,6 +37,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
                     response.x = response.width * 2;
                     response.y = response.height;
                     break;
+            }
+        },
+
+        positionsC: function (response) {
+            switch (response.name) {
                 case 'c1':
                     response.x = 0;
                     response.y = response.height * 2;
@@ -48,6 +55,22 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
                     response.y = response.height * 2;
                     break;
             }
+        },
+
+        getPosition: function (response) {
+            return {
+                height: ((response.options.height / 3) - response.height) / 2,
+                width: ((response.options.width / 3) - response.width) / 2
+            };
+        },
+
+        parse: function (response) {
+            response.width = CanvasUtils.squareWidth();
+            response.height = CanvasUtils.squareHeight();
+
+            this.positionsA(response);
+            this.positionsB(response);
+            this.positionsC(response);
 
             return response;
         }
@@ -63,10 +86,10 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             ['c1', 'b2', 'a3'],
             ['a1', 'b1', 'c1'],
             ['a2', 'b2', 'c2'],
-            ['a3', 'b3', 'c3'],
+            ['a3', 'b3', 'c3']
         ],
 
-        initialize: function() {
+        initialize: function () {
             this.add([
                 { name: 'a1' }, { name: 'a2' }, { name: 'a3' },
                 { name: 'b1' }, { name: 'b2' }, { name: 'b3' },
@@ -74,8 +97,8 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             ], { parse: true });
         },
 
-        checkWin: function(userId) {
-            var userMoves = this.where({ userId: userId }).map(function(position) {
+        checkWin: function (userId) {
+            var userMoves = this.where({ userId: userId }).map(function (position) {
                 return position.get('name');
             });
 
@@ -84,7 +107,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
                     this.trigger('game:end', { roomId: this.roomId });
                 }
             } else if (userMoves.length === 3) {
-                _.filter(this.bestMoves, function(moves) {
+                _.filter(this.bestMoves, function (moves) {
                     if (_.isEmpty(_.difference(userMoves, moves))) {
                         this.trigger('game:end', {
                             winnerId: userId,
@@ -94,11 +117,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
                 }.bind(this));
             }
         }
-    })
+    });
 
     API = {
-        getBoard: function(options) {
-            if (board == null) {
+        getBoard: function (options) {
+            if (_.isUndefined(board)) {
                 board = new Entities.Board();
                 board.roomId = options.roomId;
             }
@@ -111,11 +134,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         }
     };
 
-    App.reqres.setHandler('board:entities', function(options) {
+    App.reqres.setHandler('board:entities', function (options) {
         return API.getBoard(options);
     });
 
-    App.vent.on('reset:board:entities', function(options) {
+    App.vent.on('reset:board:entities', function () {
         return API.resetBoard();
     });
 });

@@ -8,6 +8,6 @@ var config = {
     ],
     viewsPath: 'views',
     watchDir: '/app/assets/'
-}
+};
 
 module.exports = config;

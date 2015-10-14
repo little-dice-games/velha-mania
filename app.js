@@ -1,35 +1,38 @@
-var express = require('express.io');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express = require('express.io'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
 
-var home = require('./routes/index');
-var test = require('./routes/test');
+    home = require('./routes/index'),
 
-var app = express();
-var ConnectMincer = require('connect-mincer');
-var Mincer = require('mincer');
-var env = process.env.NODE_ENV || 'development';
-var livereload = require('express-livereload');
-var config = require('./config/' + env)
+    app = express(),
+    ConnectMincer = require('connect-mincer'),
+    Mincer = require('mincer'),
+    env = process.env.NODE_ENV || 'development',
+    config = require('./config/' + env),
+    mincer,
+    livereload;
 
 // livereload
-livereload(app, { watchDir: __dirname + config.watchDir });
+if (env === 'development') {
+    livereload = require('express-livereload');
+    livereload(app, { watchDir: __dirname + config.watchDir });
+}
 
 // Non cached when production
 require('./middlewares/mincer/environment')(Mincer, env);
 
 // assets
-var mincer = new ConnectMincer({
-  mincer: Mincer,
-  root: __dirname,
-  production: env === 'production',
-  mountPoint: 'assets',
-  manifestFile: __dirname + '/public/assets/manifest.json',
-  paths: config.assetsPath,
-  precompile: env !== 'test'
+mincer = new ConnectMincer({
+    mincer: Mincer,
+    root: __dirname,
+    production: env === 'production',
+    mountPoint: 'assets',
+    manifestFile: __dirname + '/public/assets/manifest.json',
+    paths: config.assetsPath,
+    precompile: env !== 'test'
 });
 
 app.use(mincer.assets());
@@ -45,7 +48,7 @@ app.set('views', path.join(__dirname, config.viewsPath));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -54,10 +57,9 @@ app.use(cookieParser());
 app.use('/', home);
 app.use('/users/', home);
 app.use('/play/', home);
-app.use('/test/', test);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -67,7 +69,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -78,7 +80,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -86,7 +88,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
     var users = [];
 
     require('./routes/root_socket')(app, users);

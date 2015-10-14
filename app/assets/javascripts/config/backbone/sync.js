@@ -1,17 +1,16 @@
-(function(Backbone) {
-    var _sync = Backbone.sync;
+(function (Backbone) {
+    var _sync = Backbone.sync,
+        methods = {
+            beforeSend: function () {
+                this.trigger('sync:start', this);
+            },
+            complete: function () {
+                this.trigger('sync:stop', this);
+            }
+        };
 
-    var methods = {
-        beforeSend: function() {
-            this.trigger('sync:start', this);
-        },
-        complete: function() {
-            this.trigger('sync:stop', this);
-        }
-    };
-
-    Backbone.sync = function(method, entity, options) {
-        if (options == null) {
+    Backbone.sync = function (method, entity, options) {
+        if (options === null) {
             options = {};
         }
 
@@ -23,7 +22,7 @@
         var sync = _sync(method, entity, options);
 
         if (!entity._fetch && method === 'read') {
-            return entity._fetch = sync;
+            entity._fetch = sync;
         }
     };
 })(Backbone);

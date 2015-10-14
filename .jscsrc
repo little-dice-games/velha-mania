@@ -1,0 +1,6 @@
+{
+  "preset": "crockford",
+  "maximumLineLength": 120,
+  "requireLineFeedAtFileEnd": null,
+  "disallowDanglingUnderscores": null
+}

@@ -1,23 +1,44 @@
-window.CanvasUtils = (function() {
+window.CanvasUtils = (function () {
     CanvasUtils = {};
 
     CanvasUtils.ROWS = 3;
     CanvasUtils.COLUMNS = 3;
 
-    CanvasUtils.width = function() {
+    CanvasUtils.loadManifest = function () {
+        this.loader = new createjs.LoadQueue(false);
+        this.loader.addEventListener('complete', this.handleComplete.bind(this));
+        this.loader.loadManifest([
+            { src: 'sprite-x.png', id: 'x' },
+            { src: 'sprite-o.png', id: 'o' }
+        ], true, '/assets/');
+    };
+
+    CanvasUtils.handleComplete = function () {
+        $(this).trigger('complete');
+    };
+
+    CanvasUtils.width = function () {
         return $('canvas').width();
     };
 
-    CanvasUtils.height = function() {
+    CanvasUtils.height = function () {
         return $('canvas').height();
     };
 
-    CanvasUtils.squareHeight = function() {
+    CanvasUtils.squareHeight = function () {
         return this.height() / CanvasUtils.ROWS;
     };
 
-    CanvasUtils.squareWidth = function() {
+    CanvasUtils.squareWidth = function () {
         return this.width() / CanvasUtils.COLUMNS;
+    };
+
+    CanvasUtils.getSpriteX = function () {
+        return this.loader.getResult('x');
+    };
+
+    CanvasUtils.getSpriteO = function () {
+        return this.loader.getResult('o');
     };
 
     return CanvasUtils;

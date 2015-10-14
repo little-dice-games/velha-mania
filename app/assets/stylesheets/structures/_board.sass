@@ -5,9 +5,36 @@
 // *************************************
 
 .board
-  @extend .container
-  @extend .valign-wrapper
-  @extend %centralize
+  height: 100%
 
-.board canvas
-  @extend %centralize
+// -------------------------------------
+//   Scaffolding
+// -------------------------------------
+
+// -------- Canvas -------- //
+
+.board-canvas
+
+// -------- Turn -------- //
+
+.board-turn
+  background: $c-turn-background
+  font-size: $b-fontSize-xl
+  font-weight: 100
+  padding: $b-space-s
+  position: fixed
+  text-align: center
+  top: 0
+  width: 100%
+
+// State
+
+.board-turn.is-my-turn
+  animation: background-animation 2s infinite
+  -webkit-animation: background-animation 2s infinite
+
+// -------- Wrapper -------- //
+
+.board-wrapper
+  padding: em(20px)
+  text-align: center

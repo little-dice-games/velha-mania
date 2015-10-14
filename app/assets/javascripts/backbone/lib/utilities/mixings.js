@@ -1,45 +1,51 @@
-this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionette, $, _) {
-    var mixinKeywords = ['beforeIncluded', 'afterIncluded'];
-    var results = [];
+this.VelhaMania.module('Utilities', function (Utilities, App, Backbone, Marionette, $, _) {
+    var mixinKeywords = ['beforeIncluded', 'afterIncluded'],
+        results = [],
 
-    var include = function() {
-        var klass = this;
-        var objs =  arguments.length ? [].slice.call(arguments, 0) : [];
+        include = function () {
+            var klass = this,
+                objs =  arguments.length ? [].slice.call(arguments, 0) : [];
 
-        $.each(objs, function(i, obj) {
-            var concern = App.request('concern', obj)
-            var ref = '';
+            $.each(objs, function (i, obj) {
+                var concern = App.request('concern', obj),
+                    ref = '',
+                    beforeIncluded = concern.beforeIncluded,
+                    afterIncluded = concern.afterIncluded;
 
-            var beforeIncluded = concern.beforeIncluded
-            if (beforeIncluded) {
-                beforeIncluded.call(klass.prototype, klass, concern)
-            }
+                if (beforeIncluded) {
+                    beforeIncluded.call(klass.prototype, klass, concern);
+                }
 
-            Cocktail.mixin(klass, (ref = _(concern).omit(ref, mixinKeywords)))
+                Cocktail.mixin(klass, (ref = _(concern).omit(ref, mixinKeywords)));
 
-            var afterIncluded = concern.afterIncluded
-            if (afterIncluded) {
-                afterIncluded.call(klass.prototype, klass, concern)
-            }
-        })
+                if (afterIncluded) {
+                    afterIncluded.call(klass.prototype, klass, concern);
+                }
+            });
 
-        return klass;
-    };
+            return klass;
+        },
 
-    modules = [{
-        Marionette: ['ItemView', 'LayoutView', 'CollectionView', 'CompositeView']
-    }, {
-        Backbone: ['Model', 'Collection']
-    }];
+        modules = [{
+            Marionette: ['ItemView', 'LayoutView', 'CollectionView', 'CompositeView']
+        }, {
+            Backbone: ['Model', 'Collection']
+        }],
 
-    $.each(modules, function(i, module){
-        for (key in module) {
-            $.each(module[key], function(i, klass) {
-                obj = window[key] || App[key];
+        includes = function (key, module) {
+            $.each(module[key], function (i, klass) {
+                var obj = window[key] || App[key];
                 results.push(obj[klass].include = include);
-            })
+            });
+        };
+
+    $.each(modules, function (i, module) {
+        for (var key in module) {
+            if (module.hasOwnProperty(key)) {
+                includes(key, module);
+            }
         }
-    })
+    });
 
     return results;
 });

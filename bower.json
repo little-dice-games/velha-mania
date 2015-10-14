@@ -24,19 +24,21 @@
   ],
   "dependencies": {
     "marionette": "~2.3.2",
-    "marionette-formview": "git@github.com:SauloSilva/marionette.formview.git#event-fix",
+    "marionette-formview": "https://github.com/SauloSilva/marionette.formview.git#event-fix",
     "backbone.localStorage": "1.1.16",
-    "backbone.routefilter": "git@github.com:boazsender/backbone.routefilter.git",
+    "backbone.routefilter": "https://github.com/boazsender/backbone.routefilter.git",
     "backbone.mutators": "0.4.4",
     "js-md5": "1.1.0",
     "materialize": "~0.95.3",
-    "jade": "~1.9.2"
+    "jade": "~1.9.2",
+    "easeljs": "CreateJS/EaselJS#0.7.1",
+    "preloadjs": "CreateJS/PreloadJS#0.6.0"
+  },
+  "resolutions": {
+    "underscore": "1.6.0"
   },
   "devDependencies": {
     "sinon": "~1.14.1",
-    "chai": "~2.2.0",
-    "mocha": "~2.2.4",
-    "jade": "~1.9.2",
-    "easeljs": "git@github.com:CreateJS/EaselJS.git#~0.7.1"
+    "chai": "~2.2.0"
   }
 }

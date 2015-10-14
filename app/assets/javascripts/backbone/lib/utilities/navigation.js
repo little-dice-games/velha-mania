@@ -1,6 +1,6 @@
-this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('Utilities', function (Utilities, App, Backbone, Marionette, $, _) {
     var API = {
-        navigate: function(route, options) {
+        navigate: function (route, options) {
             if (_.isNull(options)) {
                 options = {};
             }
@@ -8,7 +8,7 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
             Backbone.history.navigate(this.urlFor(route), options);
         },
 
-        getCurrentRoute: function() {
+        getCurrentRoute: function () {
             var frag = Backbone.history.fragment;
 
             if (_.isEmpty(frag)) {
@@ -18,37 +18,37 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
             }
         },
 
-        urlFor: function(route) {
+        urlFor: function (route) {
             if (_.isNull(route)) {
                 route = '/';
             }
 
             if (route.slice(0) !== '/') {
-                route = "/" + route;
+                route = '/' + route;
             }
 
             if (route.slice(-1) !== '/') {
-                route = route + "/";
+                route = route + '/';
             }
 
             return route.replace(/\/\//g, '/');
         },
 
-        startHistory: function() {
+        startHistory: function () {
             if (Backbone.history) {
                 return Backbone.history.start({ pushState: true });
             }
         },
 
-        navigation: function(path, options) {
-            var path = path ? path : '/';
+        navigation: function (path, options) {
+            var currentPath = path ? path : '/';
 
-            setTimeout(function() {
-                App.navigate(App.urlFor(path), options);
-            }, 1)
+            setTimeout(function () {
+                App.navigate(App.urlFor(currentPath), options);
+            }, 1);
         },
 
-        start: function() {
+        start: function () {
             _.extend(App, {
                 navigate: API.navigate,
                 getCurrentRoute: API.getCurrentRoute,
@@ -56,13 +56,13 @@ this.VelhaMania.module('Utilities', function(Utilities, App, Backbone, Marionett
                 startHistory: API.startHistory
             });
         }
-    }
+    };
 
-    Utilities.on('start', function() {
+    Utilities.on('start', function () {
         API.start();
-    })
+    });
 
-    App.vent.on('visit', function(path, options) {
+    App.vent.on('visit', function (path, options) {
         API.navigation(path, options);
     });
 });

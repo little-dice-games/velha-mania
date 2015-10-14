@@ -1,4 +1,4 @@
-this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('Entities', function (Entities, App, Backbone, Marionette, $, _) {
     var API;
 
     Entities.Bot = Backbone.Model.extend({
@@ -22,7 +22,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             _.each(board.bestMoves, function(positions, i) {
                 playedOpponent = _.difference(positions, opponentPositions);
 
-                if (playedOpponent.length == 1) {
+                if (playedOpponent.length === 1) {
                     playeds = playedOpponent;
                 }
             });
@@ -30,11 +30,11 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             _.each(board.bestMoves, function(i, positions) {
                 playedMe = _.difference(positions, myPositions);
 
-                if (!playeds && playedMe.length == 1) {
+                if (!playeds && playedMe.length === 1) {
                     playeds = playedMe;
-                } else if (!playeds && playedMe.length == 2) {
+                } else if (!playeds && playedMe.length === 2) {
                     playeds = playedMe;
-                } else if(!playeds) {
+                } else if (!playeds) {
                     playeds = _.extend(playedMe, freePositions);
                 }
             });
@@ -42,7 +42,7 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
             var betterPosition = playeds[_.random(0, playeds.length - 1)];
             return board.findWhere({ name: betterPosition });
         }
-    })
+    });
 
     API = {
         getBot: function(options) {

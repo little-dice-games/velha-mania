@@ -1,24 +1,23 @@
-this.VelhaMania.module('HomeApp.Show', function(Show, App, Backbone, Marionette, $, _) {
+this.VelhaMania.module('HomeApp.Show', function (Show, App) {
     Show.Controller = App.Controllers.Application.extend({
-        initialize: function() {
+        initialize: function () {
             this.layout = this.getLayout();
 
-            var _this = this;
-            _this.listenTo(_this.layout, 'show', function() {
-                _this.formViewRegion();
-            });
+            this.listenTo(this.layout, 'show', function () {
+                this.formViewRegion();
+            }.bind(this));
 
-            App.mainRegion.show(_this.layout);
+            App.mainRegion.show(this.layout);
         },
 
-        getLayout: function() {
+        getLayout: function () {
             return new Show.Layout();
         },
 
-        formViewRegion: function() {
+        formViewRegion: function () {
             var view = this.getFormView();
 
-            this.listenTo(view, 'form:submited', function(data) {
+            this.listenTo(view, 'form:submited', function (data) {
                 App.request('new:user:entity', data.email);
                 App.vent.trigger('users:visit');
             });
@@ -26,8 +25,8 @@ this.VelhaMania.module('HomeApp.Show', function(Show, App, Backbone, Marionette,
             this.layout.formRegion.show(view);
         },
 
-        getFormView: function() {
-            return new Show.FormView()
+        getFormView: function () {
+            return new Show.FormView();
         }
     });
 });
