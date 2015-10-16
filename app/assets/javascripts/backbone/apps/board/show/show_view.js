@@ -124,18 +124,17 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App, Backbone, Marionett
         childView: Show.PositionView,
         childEvents: {
             play: function (childView, shape) {
-                shape.scaleX = 0.5;
-                shape.scaleY = 0.5;
+                var newWidth = this.stage.canvas.width / 3,
+                    width = 200,
+                    scale;
 
-                var wrapperSize = this.stage.canvas.width / 3,
-                    padding = 0;
+                scale = (1.0 * newWidth) / width;
 
-                if (wrapperSize > 100) {
-                    padding = (wrapperSize - 100) / 2;
-                }
+                shape.scaleX = scale;
+                shape.scaleY = scale;
 
-                shape.x = childView.model.get('x') + padding;
-                shape.y = childView.model.get('y') + padding;
+                shape.x = childView.model.get('x');
+                shape.y = childView.model.get('y');
                 this.stage.addChild(shape);
             }
         },
