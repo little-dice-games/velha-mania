@@ -12,7 +12,7 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
 
             var users = App.request('user:entities');
             this.currentUser = App.request('user:entity');
-
+            window.currentUser = this.currentUser;
             console.log(this.options);
 
             this.listenTo(users, 'change', function () {
@@ -39,11 +39,14 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
 
         boardRegion: function (realSize) {
             this.board = App.request('board:entities', _.defaults(this.options, realSize));
+            window.board = this.board;
             this.boardView = this.getBoardView();
 
             this.listenTo(this.boardView, 'childview:shape:clicked', function (child) {
                 if (this.currentUser.get('turn')) {
                     this.onShapeClicked(child.model);
+                } else if (this.bot) {
+                    this.botPlay();
                 }
             }.bind(this));
 
@@ -118,6 +121,8 @@ this.VelhaMania.module('BoardApp.Show', function (Show, App) {
 
                     this.board.checkWin(this.bot.get('opponent'));
                 }.bind(this), 500);
+            } else {
+                this.board.checkWin(this.currentUser.get('id'));
             }
         }
     });

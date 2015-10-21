@@ -98,17 +98,25 @@ this.VelhaMania.module('Entities', function(Entities, App, Backbone, Marionette,
         },
 
         checkWin: function (userId) {
+            console.log('checkWin', userId);
+
             var userMoves = this.where({ userId: userId }).map(function (position) {
                 return position.get('name');
             });
 
+            console.log('userMoves', userMoves);
+
             if (userMoves.length === 5) {
+                console.log('userMoves equals 5');
                 if (_.isEmpty(this.where({ play: undefined }))) {
+                    console.log('game:end', this.roomId);
                     this.trigger('game:end', { roomId: this.roomId });
                 }
             } else if (userMoves.length === 3) {
+                console.log('userMoves equals 3');
                 _.filter(this.bestMoves, function (moves) {
                     if (_.isEmpty(_.difference(userMoves, moves))) {
+                        console.log('game:end', this.roomId, userId);
                         this.trigger('game:end', {
                             winnerId: userId,
                             roomId: this.roomId
