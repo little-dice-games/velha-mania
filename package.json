@@ -13,6 +13,10 @@
     "\"CSS3\"",
     "\"JavaScript\"]"
   ],
+  "engines": {
+    "node": "0.12.2",
+    "npm": "2.7.4"
+  },
   "private": true,
   "scripts": {
     "start": "./bin/www",
