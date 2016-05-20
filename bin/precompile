@@ -27,4 +27,6 @@ manifest.compile(['**/*.js', '*.sass', '*.css', '*.scss'], function(err, data) {
   console.info('Finished precompile:');
 });
 
-process.exit();
+setTimeout(function() {
+  process.exit();
+}, 5000);
