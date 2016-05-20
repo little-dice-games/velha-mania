@@ -26,3 +26,5 @@ var manifest = new Mincer.Manifest(env, publicAssetsPath);
 manifest.compile(['**/*.js', '*.sass', '*.css', '*.scss'], function(err, data) {
   console.info('Finished precompile:');
 });
+
+process.exit();

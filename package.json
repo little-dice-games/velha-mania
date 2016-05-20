@@ -21,7 +21,7 @@
   "scripts": {
     "start": "./bin/www",
     "test": "gulp test",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install && ./bin/precompile"
   },
   "dependencies": {
     "bower": "1.7.7",
