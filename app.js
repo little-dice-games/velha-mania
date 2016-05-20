@@ -37,11 +37,11 @@ mincer = new ConnectMincer({
 
 app.use(mincer.assets());
 
-if (env === 'production') {
-    app.use(express.static(__dirname + '/public'));
-} else {
+// if (env === 'production') {
+//     app.use(express.static(__dirname + '/public'));
+// } else {
     app.use('/assets', mincer.createServer());
-}
+// }
 
 // view engine setup
 app.set('views', path.join(__dirname, config.viewsPath));
